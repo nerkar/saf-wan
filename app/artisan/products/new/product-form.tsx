@@ -322,9 +322,9 @@ export function ProductForm({ blobUploadEnabled }: ProductFormProps) {
                   filePickRef.current?.click();
                 }
               }}
-              className={`flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed px-4 py-8 text-center transition-all duration-200 ${
+              className={`craft-dropzone flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed px-4 py-8 text-center ${
                 dragActive
-                  ? "border-[var(--craft-accent)] bg-[var(--craft-accent-soft)]"
+                  ? "border-[var(--craft-accent)] bg-[var(--craft-accent-soft)] shadow-lg"
                   : "border-[var(--craft-border-strong)] bg-[var(--craft-surface)] hover:border-[var(--craft-accent)]"
               }`}
               onClick={() => filePickRef.current?.click()}

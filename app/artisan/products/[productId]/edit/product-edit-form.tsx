@@ -217,7 +217,7 @@ export function ProductEditForm({ product, blobUploadEnabled }: ProductEditFormP
                         formAction={async () => {
                           await removeProductMedia(m.id);
                         }}
-                        className="rounded-lg border border-red-200 bg-red-50/80 px-2 py-1 text-xs font-medium text-red-900 transition hover:bg-red-100 active:scale-[0.98]"
+                        className="craft-btn-danger px-2 py-1 text-xs"
                       >
                         Remove
                       </button>
@@ -240,7 +240,7 @@ export function ProductEditForm({ product, blobUploadEnabled }: ProductEditFormP
                 ref={fileRef}
                 type="file"
                 accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime"
-                className="mt-2 block w-full text-sm text-stone-600 file:mr-3 file:rounded-md file:border-0 file:bg-stone-100 file:px-3 file:py-1.5 file:text-sm file:font-medium"
+                className="craft-file-input mt-2 block w-full text-sm text-[var(--craft-muted)]"
                 disabled={uploading}
                 onChange={onFileChange}
               />
