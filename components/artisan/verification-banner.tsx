@@ -1,4 +1,5 @@
 import type { VerificationStatus } from "@prisma/client";
+import Link from "next/link";
 
 type Props = {
   status: VerificationStatus | null | undefined;
@@ -17,7 +18,11 @@ export function VerificationBanner({ status }: Props) {
       <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
         <strong>Verification pending.</strong> The last 4 digits of your mobile did not match the
         registry CSV, or your profile has no mobile yet (e.g. Google sign-in). Adding products and
-        media is disabled until verification succeeds.
+        media is disabled until verification succeeds.{" "}
+        <Link href="/artisan/profile" className="font-medium underline">
+          Edit registry profile
+        </Link>{" "}
+        to add or update your mobile and other details.
       </div>
     );
   }

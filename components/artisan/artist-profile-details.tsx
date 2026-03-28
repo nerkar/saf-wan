@@ -1,4 +1,5 @@
 import type { VerificationStatus } from "@prisma/client";
+import Link from "next/link";
 import { formatMobileForDisplay } from "@/lib/mask-mobile";
 
 type Props = {
@@ -87,6 +88,15 @@ export function ArtistProfileDetails(props: Props) {
             <Row label="Registry ref" value={props.externalPortalId} />
           ) : null}
         </dl>
+
+        <p className="border-t border-stone-100 pt-3">
+          <Link
+            href="/artisan/profile"
+            className="text-sm font-medium text-stone-900 underline decoration-stone-300 underline-offset-2 hover:text-stone-700"
+          >
+            Edit registry profile
+          </Link>
+        </p>
       </div>
     </details>
   );
