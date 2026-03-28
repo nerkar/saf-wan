@@ -3,6 +3,7 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
+import { verifyArtisanWithGovernment } from "@/lib/government";
 import { prisma } from "@/lib/prisma";
 
 const googleConfigured =
@@ -51,16 +52,35 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   events: {
+    /**
+     * Ensures ArtisanProfile exists and runs the government verification stub
+     * (same integration surface as registration). Keeps OAuth + credentials aligned.
+     */
     async signIn({ user }) {
       if (!user?.id) return;
+
       await prisma.artisanProfile.upsert({
         where: { userId: user.id },
         create: {
           userId: user.id,
           displayName: user.name ?? null,
-          verificationStatus: "VERIFIED",
+          verificationStatus: "PENDING",
         },
         update: {},
+      });
+
+      const gov = await verifyArtisanWithGovernment({
+        email: user.email,
+        displayName: user.name ?? null,
+        externalPortalId: null,
+      });
+
+      await prisma.artisanProfile.update({
+        where: { userId: user.id },
+        data: {
+          verificationStatus: gov.status,
+          externalPortalId: gov.externalPortalId ?? undefined,
+        },
       });
     },
   },

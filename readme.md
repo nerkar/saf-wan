@@ -12,6 +12,7 @@ The team works from a **single implementation plan** so parallel work stays inte
 |------|--------|
 | **Full plan (workflow, contracts, per-developer tasks)** | [docs/implementation-plan.md](docs/implementation-plan.md) |
 | **Platform: gov stub, storage, env, Prisma merges, Vercel** | [docs/integration-platform.md](docs/integration-platform.md) |
+| **Auth & sessions (Dev 1 integration)** | [docs/INTEGRATION_AUTH.md](docs/INTEGRATION_AUTH.md) |
 | **AI/editor guidance** | [.cursorrules](.cursorrules) at repo root |
 
 ### How to use the plan
@@ -37,10 +38,12 @@ Updating the plan document in-repo is a **team decision** (e.g. after changing s
 saf-wan/
 ├── .cursorrules              # Cursor / AI project rules
 ├── docs/
-│   └── implementation-plan.md
+│   ├── implementation-plan.md
+│   ├── INTEGRATION_AUTH.md
+│   └── integration-platform.md
 ├── app/
 │   ├── (public)/             # Landing, marketplace, /verify — public routes
-│   ├── (artisan)/            # Protected artisan dashboard (Auth.js)
+│   ├── artisan/              # Protected artisan dashboard (Auth.js)
 │   └── api/                  # Route handlers (upload, webhooks, etc.)
 ├── lib/
 │   ├── government/           # Gov types + verifyArtisanWithGovernment (stub only)

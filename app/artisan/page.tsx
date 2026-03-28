@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { auth } from "@/auth";
+import { VerificationBanner } from "@/components/artisan/verification-banner";
 import { prisma } from "@/lib/prisma";
+import { requireUserId } from "@/lib/session";
 
 export default async function ArtisanDashboardPage() {
-  const session = await auth();
-  const userId = session!.user!.id;
+  const userId = await requireUserId();
 
   const profile = await prisma.artisanProfile.findUnique({
     where: { userId },
@@ -20,11 +20,18 @@ export default async function ArtisanDashboardPage() {
 
   return (
     <div className="space-y-8">
+      <VerificationBanner status={profile?.verificationStatus} />
+
       <div>
         <h1 className="text-2xl font-semibold text-stone-900">Artisan dashboard</h1>
         <p className="mt-1 text-sm text-stone-600">
           Verification:{" "}
           <span className="font-medium">{profile?.verificationStatus ?? "—"}</span>
+          {profile?.externalPortalId ? (
+            <span className="ml-2 text-stone-500">
+              (portal ref: {profile.externalPortalId})
+            </span>
+          ) : null}
         </p>
       </div>
 

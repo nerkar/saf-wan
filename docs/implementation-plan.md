@@ -30,11 +30,13 @@ This document is the **in-repo** copy of the team plan. Use it for day-to-day wo
 
 ## Developer 1 — Auth, profiles, onboarding
 
+**Status:** Implemented — see **[docs/INTEGRATION_AUTH.md](INTEGRATION_AUTH.md)** for session shape, `requireUserId()`, protected routes, and integration checklist for Dev 2–4.
+
 - Auth.js (Google + credentials), Prisma user/session tables as needed.
 - `User`, `ArtisanProfile` (`verificationStatus`, optional `externalPortalId`).
-- UI: register, login, logout; protect `app/(artisan)/`.
-- Onboarding calls `verifyArtisanWithGovernment` stub; persist status.
-- README note: session shape for other devs.
+- UI: register, login, logout; protect `app/artisan/`.
+- Onboarding: `verifyArtisanWithGovernment` on registration and on every `signIn` (OAuth + credentials); persist status.
+- Integration doc: [INTEGRATION_AUTH.md](INTEGRATION_AUTH.md).
 
 ## Developer 2 — Products, media, dashboard
 
@@ -64,6 +66,3 @@ This document is the **in-repo** copy of the team plan. Use it for day-to-day wo
 
 - Production government API calls (stub only).
 - SMS OTP; production video transcoding/CDN tuning.
-
-
-dne
