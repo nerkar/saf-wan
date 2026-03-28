@@ -1,3 +1,4 @@
+/** @vercel-platform blob — backend id vercel-blob when BLOB_READ_WRITE_TOKEN set */
 import "server-only";
 
 export type StorageBackend = "vercel-blob" | "none";

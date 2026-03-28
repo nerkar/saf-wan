@@ -1,3 +1,4 @@
+/** @vercel-platform blob — @vercel/blob put(); env BLOB_READ_WRITE_TOKEN */
 import "server-only";
 
 import { put } from "@vercel/blob";

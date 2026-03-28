@@ -1,3 +1,4 @@
+/** @vercel-platform blob — @vercel/blob; env BLOB_READ_WRITE_TOKEN; see docs/vercel-platform-touchpoints.md */
 import { put } from "@vercel/blob";
 import type { MediaType } from "@prisma/client";
 
