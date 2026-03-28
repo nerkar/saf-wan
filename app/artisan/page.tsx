@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { ArtistProfileDetails } from "@/components/artisan/artist-profile-details";
 import { VerificationBanner } from "@/components/artisan/verification-banner";
+import { isVerifiedForProductOps } from "@/lib/artisan-product-guard";
 import { prisma } from "@/lib/prisma";
 import { requireUserId } from "@/lib/session";
 import { getProductVerificationUrl } from "@/lib/verification-url";
@@ -7,9 +9,13 @@ import { getProductVerificationUrl } from "@/lib/verification-url";
 export default async function ArtisanDashboardPage() {
   const userId = await requireUserId();
 
-  const profile = await prisma.artisanProfile.findUnique({
-    where: { userId },
-  });
+  const [user, profile] = await Promise.all([
+    prisma.user.findUnique({
+      where: { id: userId },
+      select: { email: true, name: true },
+    }),
+    prisma.artisanProfile.findUnique({ where: { userId } }),
+  ]);
 
   const products = await prisma.product.findMany({
     where: { artisanId: userId },
@@ -23,25 +29,38 @@ export default async function ArtisanDashboardPage() {
 
       <div>
         <h1 className="text-2xl font-semibold text-stone-900">Artisan dashboard</h1>
-        <p className="mt-1 text-sm text-stone-600">
-          Verification:{" "}
-          <span className="font-medium">{profile?.verificationStatus ?? "—"}</span>
-          {profile?.externalPortalId ? (
-            <span className="ml-2 text-stone-500">
-              (portal ref: {profile.externalPortalId})
-            </span>
-          ) : null}
-        </p>
+        {user?.email ? (
+          <p className="mt-1 text-sm text-stone-600">
+            Signed in as <span className="font-medium text-stone-800">{user.email}</span>
+          </p>
+        ) : null}
       </div>
 
-      <div className="flex flex-wrap gap-3">
-        <Link
-          href="/artisan/products/new"
-          className="inline-flex rounded-md bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800"
-        >
-          Add product
-        </Link>
-      </div>
+      {profile ? (
+        <ArtistProfileDetails
+          verificationStatus={profile.verificationStatus}
+          displayName={profile.displayName}
+          accountEmail={user?.email ?? null}
+          accountName={user?.name ?? null}
+          govState={profile.govState}
+          govDistrict={profile.govDistrict}
+          govCraft={profile.govCraft}
+          govGender={profile.govGender}
+          govMobile={profile.govMobile}
+          externalPortalId={profile.externalPortalId}
+        />
+      ) : null}
+
+      {isVerifiedForProductOps(profile?.verificationStatus) ? (
+        <div className="flex flex-wrap gap-3">
+          <Link
+            href="/artisan/products/new"
+            className="inline-flex rounded-md bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800"
+          >
+            Add product
+          </Link>
+        </div>
+      ) : null}
 
       <section>
         <h2 className="mb-3 text-lg font-medium text-stone-900">Your products</h2>

@@ -6,7 +6,8 @@ export default function RegisterPage() {
       <div>
         <h1 className="text-2xl font-semibold text-stone-900">Artisan registration</h1>
         <p className="mt-1 text-sm text-stone-600">
-          Create an account. Verification uses the government stub until the real API is wired.
+          Verification uses the <strong>last 4 digits</strong> of your mobile against the in-app
+          registry CSV. Other fields are optional. Products stay disabled until there is a match.
         </p>
       </div>
 

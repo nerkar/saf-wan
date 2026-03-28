@@ -69,10 +69,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         update: {},
       });
 
+      const profile = await prisma.artisanProfile.findUnique({
+        where: { userId: user.id },
+      });
+
       const gov = await verifyArtisanWithGovernment({
         email: user.email,
-        displayName: user.name ?? null,
-        externalPortalId: null,
+        displayName: profile?.displayName ?? user.name ?? null,
+        govState: profile?.govState,
+        govDistrict: profile?.govDistrict,
+        govCraft: profile?.govCraft,
+        govGender: profile?.govGender,
+        govMobile: profile?.govMobile,
+        externalPortalId: profile?.externalPortalId,
       });
 
       await prisma.artisanProfile.update({

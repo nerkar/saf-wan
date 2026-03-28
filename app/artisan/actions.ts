@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { getProductOpsBlockReason } from "@/lib/artisan-product-guard";
 import { prisma } from "@/lib/prisma";
 import { requireUserId } from "@/lib/session";
 
@@ -10,6 +11,11 @@ export async function createProduct(
   formData: FormData,
 ): Promise<{ error?: string }> {
   const userId = await requireUserId();
+
+  const blocked = await getProductOpsBlockReason(userId);
+  if (blocked) {
+    return { error: blocked };
+  }
 
   const name = String(formData.get("name") ?? "").trim();
   const category = String(formData.get("category") ?? "").trim();

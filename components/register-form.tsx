@@ -17,8 +17,24 @@ export function RegisterForm() {
 
       <form action={formAction} className="space-y-4">
         <div>
+          <label htmlFor="govMobile" className="block text-sm font-medium text-stone-700">
+            Mobile <span className="text-stone-500">(required — last 4 digits must match the registry)</span>
+          </label>
+          <input
+            id="govMobile"
+            name="govMobile"
+            type="tel"
+            required
+            inputMode="numeric"
+            autoComplete="tel"
+            placeholder="e.g. 10-digit number; verification uses the last 4 digits only"
+            className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
+          />
+        </div>
+
+        <div>
           <label htmlFor="name" className="block text-sm font-medium text-stone-700">
-            Display name
+            Name <span className="font-normal text-stone-500">(optional)</span>
           </label>
           <input
             id="name"
@@ -28,6 +44,58 @@ export function RegisterForm() {
             className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
           />
         </div>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="sm:col-span-2">
+            <label htmlFor="govState" className="block text-sm font-medium text-stone-700">
+              State <span className="font-normal text-stone-500">(optional)</span>
+            </label>
+            <input
+              id="govState"
+              name="govState"
+              type="text"
+              placeholder="e.g. JAMMU AND KASHMIR"
+              className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
+            />
+          </div>
+          <div>
+            <label htmlFor="govDistrict" className="block text-sm font-medium text-stone-700">
+              District <span className="font-normal text-stone-500">(optional)</span>
+            </label>
+            <input
+              id="govDistrict"
+              name="govDistrict"
+              type="text"
+              placeholder="e.g. UDHAMPUR"
+              className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
+            />
+          </div>
+          <div>
+            <label htmlFor="govCraft" className="block text-sm font-medium text-stone-700">
+              Craft <span className="font-normal text-stone-500">(optional)</span>
+            </label>
+            <input
+              id="govCraft"
+              name="govCraft"
+              type="text"
+              placeholder="e.g. Other Embroideries"
+              className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
+            />
+          </div>
+          <div>
+            <label htmlFor="govGender" className="block text-sm font-medium text-stone-700">
+              Gender <span className="font-normal text-stone-500">(optional)</span>
+            </label>
+            <input
+              id="govGender"
+              name="govGender"
+              type="text"
+              placeholder="e.g. Female"
+              className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
+            />
+          </div>
+        </div>
+
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-stone-700">
             Email

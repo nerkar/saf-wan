@@ -15,8 +15,9 @@ export function VerificationBanner({ status }: Props) {
   if (status === "PENDING") {
     return (
       <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-        <strong>Verification pending.</strong> Your account is being validated against the official
-        handicrafts registry (stub in development). You can still use the dashboard.
+        <strong>Verification pending.</strong> The last 4 digits of your mobile did not match the
+        registry CSV, or your profile has no mobile yet (e.g. Google sign-in). Adding products and
+        media is disabled until verification succeeds.
       </div>
     );
   }

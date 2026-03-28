@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { getProductOpsBlockReason } from "@/lib/artisan-product-guard";
 import { prisma } from "@/lib/prisma";
 import { uploadProductBlob } from "@/lib/storage";
 import { NextResponse } from "next/server";
@@ -10,6 +11,11 @@ export async function POST(request: Request, { params }: RouteParams) {
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const blocked = await getProductOpsBlockReason(session.user.id);
+  if (blocked) {
+    return NextResponse.json({ error: blocked }, { status: 403 });
   }
 
   const { productId } = await params;

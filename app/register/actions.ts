@@ -5,6 +5,10 @@ import { redirect } from "next/navigation";
 import { verifyArtisanWithGovernment } from "@/lib/government";
 import { prisma } from "@/lib/prisma";
 
+function digitsOnly(s: string): string {
+  return s.replace(/\D/g, "");
+}
+
 export async function registerArtisan(
   _prev: { error?: string } | undefined,
   formData: FormData,
@@ -12,12 +16,25 @@ export async function registerArtisan(
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const password = String(formData.get("password") ?? "");
   const name = String(formData.get("name") ?? "").trim();
+  const govState = String(formData.get("govState") ?? "").trim();
+  const govDistrict = String(formData.get("govDistrict") ?? "").trim();
+  const govCraft = String(formData.get("govCraft") ?? "").trim();
+  const govGender = String(formData.get("govGender") ?? "").trim();
+  const govMobileRaw = String(formData.get("govMobile") ?? "").trim();
 
   if (!email || !password) {
     return { error: "Email and password are required." };
   }
   if (password.length < 8) {
     return { error: "Password must be at least 8 characters." };
+  }
+  if (!govMobileRaw) {
+    return { error: "Mobile number is required for registry verification (last 4 digits must match)." };
+  }
+
+  const govMobile = digitsOnly(govMobileRaw);
+  if (govMobile.length < 4) {
+    return { error: "Enter at least 4 digits so the last 4 can be matched to the registry." };
   }
 
   const existing = await prisma.user.findUnique({ where: { email } });
@@ -35,6 +52,11 @@ export async function registerArtisan(
         create: {
           displayName: name || null,
           verificationStatus: "PENDING",
+          govState: govState || null,
+          govDistrict: govDistrict || null,
+          govCraft: govCraft || null,
+          govGender: govGender || null,
+          govMobile,
         },
       },
     },
@@ -43,6 +65,11 @@ export async function registerArtisan(
   const gov = await verifyArtisanWithGovernment({
     email,
     displayName: name || null,
+    govState: govState || null,
+    govDistrict: govDistrict || null,
+    govCraft: govCraft || null,
+    govGender: govGender || null,
+    govMobile,
   });
 
   await prisma.artisanProfile.update({

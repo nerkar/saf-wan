@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
+import { getProductOpsBlockReason } from "@/lib/artisan-product-guard";
 import { prisma } from "@/lib/prisma";
 import type { MediaType } from "@prisma/client";
 
@@ -20,6 +21,11 @@ export async function createProduct(
   const session = await auth();
   if (!session?.user?.id) {
     redirect("/login");
+  }
+
+  const blocked = await getProductOpsBlockReason(session.user.id);
+  if (blocked) {
+    return { error: blocked };
   }
 
   const name = String(formData.get("name") ?? "").trim();
@@ -64,6 +70,11 @@ export async function updateProduct(
     redirect("/login");
   }
 
+  const blocked = await getProductOpsBlockReason(session.user.id);
+  if (blocked) {
+    return { error: blocked };
+  }
+
   const productId = String(formData.get("productId") ?? "").trim();
   const name = String(formData.get("name") ?? "").trim();
   const category = String(formData.get("category") ?? "").trim();
@@ -101,6 +112,11 @@ export async function deleteProduct(productId: string): Promise<{ error?: string
     redirect("/login");
   }
 
+  const blocked = await getProductOpsBlockReason(session.user.id);
+  if (blocked) {
+    return { error: blocked };
+  }
+
   const deleted = await prisma.product.deleteMany({
     where: { id: productId, artisanId: session.user.id },
   });
@@ -122,6 +138,11 @@ export async function addProductMediaFromUrl(
   const session = await auth();
   if (!session?.user?.id) {
     redirect("/login");
+  }
+
+  const blocked = await getProductOpsBlockReason(session.user.id);
+  if (blocked) {
+    return { error: blocked };
   }
 
   const productId = String(formData.get("productId") ?? "").trim();
@@ -173,6 +194,11 @@ export async function removeProductMedia(mediaId: string): Promise<{ error?: str
     redirect("/login");
   }
 
+  const blocked = await getProductOpsBlockReason(session.user.id);
+  if (blocked) {
+    return { error: blocked };
+  }
+
   const media = await prisma.productMedia.findUnique({
     where: { id: mediaId },
     include: { product: true },
@@ -194,6 +220,11 @@ export async function moveProductMedia(
   const session = await auth();
   if (!session?.user?.id) {
     redirect("/login");
+  }
+
+  const blocked = await getProductOpsBlockReason(session.user.id);
+  if (blocked) {
+    return { error: blocked };
   }
 
   const media = await prisma.productMedia.findUnique({

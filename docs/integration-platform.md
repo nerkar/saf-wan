@@ -5,7 +5,7 @@ This document is the handoff for **government stub**, **object storage**, **envi
 ## Government verification API
 
 - **Module:** `lib/government/`
-- **Entry:** `verifyArtisanWithGovernment(input)` — async, **no network** in the prototype.
+- **Entry:** `verifyArtisanWithGovernment(input)` — async, **no network** in the prototype; positive matches compare the last **4** digits of `govMobile` to the CSV `Mobile` column (see [`supporting/artist-dataset.csv`](../supporting/artist-dataset.csv) and `ARTIST_DATASET_CSV` in `.env.example`).
 - **Types:** `lib/government/types.ts` — `GovernmentVerificationInput`, `GovernmentVerificationResult`, `GovernmentVerificationStatus`.
 - **Contract:** `GovernmentVerificationStatus` must stay aligned with the Prisma enum `VerificationStatus` in `schema.prisma` (`PENDING`, `VERIFIED`, `REJECTED`). When the real portal returns different labels, map them in this module only.
 

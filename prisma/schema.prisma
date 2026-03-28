@@ -74,6 +74,13 @@ model ArtisanProfile {
   displayName        String?
   verificationStatus VerificationStatus @default(PENDING)
   externalPortalId   String?
+  /** Submitted for government registry matching (stub CSV: supporting/artist-dataset.csv). */
+  govState           String?
+  govDistrict        String?
+  govCraft           String?
+  govGender          String?
+  /** Digits-only mobile; registry match uses last 4 digits. */
+  govMobile          String?
   createdAt          DateTime           @default(now())
   updatedAt          DateTime           @updatedAt
 }

@@ -60,15 +60,17 @@ const id = await getOptionalUserId();
 | `User` | Core user; `email`, optional `password` (bcrypt) for credentials |
 | `Account` | OAuth links (Google) |
 | `Session` | Present for Prisma adapter compatibility; JWT strategy is primary for session |
-| `ArtisanProfile` | 1:1 with `User`; `verificationStatus`, `externalPortalId` |
+| `ArtisanProfile` | 1:1 with `User`; `verificationStatus`, `externalPortalId`; optional `govState`–`govMobile` for registry stub matching |
 
 **Foreign key for products:** `Product.artisanId` → `User.id` (see Prisma schema).
 
 ## Government verification stub
 
 - **Only** call [`verifyArtisanWithGovernment`](../lib/government/index.ts) from agreed flows — do not duplicate stub logic.
-- **Credentials registration** ([`app/register/actions.ts`](../app/register/actions.ts)): creates user + profile, calls stub, persists `verificationStatus` / `externalPortalId`.
-- **Every sign-in** ([`auth.ts`](../auth.ts) `events.signIn`): ensures `ArtisanProfile` exists, re-runs stub, updates profile (keeps OAuth and credentials aligned until real API is gated).
+- **Stub dataset:** [`supporting/artist-dataset.csv`](../supporting/artist-dataset.csv) — CSV export (header + rows). Matching is implemented only in `lib/government/` and loads this file at runtime (cached). **Match rule (prototype):** last **4** digits of the user’s mobile vs last **4** digits of the masked `Mobile` column; other submitted fields are stored on the profile but **not** used for matching. Optional env: `ARTIST_DATASET_CSV` for a custom path relative to the project root or absolute.
+- **Credentials registration** ([`app/register/actions.ts`](../app/register/actions.ts)): saves `gov*` fields on `ArtisanProfile`, calls the stub, persists `verificationStatus` / `externalPortalId`.
+- **Every sign-in** ([`auth.ts`](../auth.ts) `events.signIn`): re-runs the stub with stored `gov*` fields (OAuth users stay `PENDING` until those fields exist and match).
+- **Products / media:** only `VERIFIED` artisans may mutate products; enforced in [`lib/artisan-product-guard.ts`](../lib/artisan-product-guard.ts) and server actions.
 
 ## Integration checklist for Dev 2 / 3 / 4
 

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@/auth";
+import { isVerifiedForProductOps } from "@/lib/artisan-product-guard";
 import { prisma } from "@/lib/prisma";
 import { isBlobStorageConfigured } from "@/lib/storage";
 import { ProductEditForm } from "./product-edit-form";
@@ -11,6 +12,13 @@ export default async function EditProductPage({ params }: Props) {
   const session = await auth();
   if (!session?.user?.id) {
     redirect("/login");
+  }
+
+  const profile = await prisma.artisanProfile.findUnique({
+    where: { userId: session.user.id },
+  });
+  if (!isVerifiedForProductOps(profile?.verificationStatus)) {
+    redirect("/artisan");
   }
 
   const { productId } = await params;
