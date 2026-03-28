@@ -59,6 +59,12 @@ export default async function ArtisanDashboardPage() {
                     </p>
                   </div>
                   <div className="flex flex-wrap gap-2">
+                    <Link
+                      href={`/artisan/products/${p.id}/edit`}
+                      className="rounded-md border border-stone-300 px-3 py-1.5 text-sm text-stone-800 hover:bg-stone-50"
+                    >
+                      Edit
+                    </Link>
                     <a
                       href={`/api/products/${p.id}/qr`}
                       download={`qr-${p.id}.png`}

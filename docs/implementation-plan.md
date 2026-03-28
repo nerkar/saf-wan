@@ -43,6 +43,7 @@ This document is the **in-repo** copy of the team plan. Use it for day-to-day wo
 - Uploads via shared storage helper; cap file size for demo video.
 - Artisan dashboard: list, create/edit, media gallery.
 - Implement `getProductForVerification(productId)`.
+- **Integration reference:** [INTEGRATION_DEV2_PRODUCTS.md](INTEGRATION_DEV2_PRODUCTS.md) — routes, actions, storage, verification API for other devs.
 
 ## Developer 3 — Public site, QR, verification UI
 
@@ -63,6 +64,3 @@ This document is the **in-repo** copy of the team plan. Use it for day-to-day wo
 
 - Production government API calls (stub only).
 - SMS OTP; production video transcoding/CDN tuning.
-
-
-dne

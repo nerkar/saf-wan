@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 import { registerArtisan } from "@/app/register/actions";
 
 const initial: { error?: string } = {};
 
 export function RegisterForm() {
-  const [state, formAction] = useFormState(registerArtisan, initial);
+  const [state, formAction] = useActionState(registerArtisan, initial);
 
   return (
     <>
