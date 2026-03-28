@@ -89,10 +89,13 @@ model Product {
   id          String         @id @default(uuid())
   artisanId   String
   artisan     User           @relation(fields: [artisanId], references: [id], onDelete: Cascade)
-  name        String
-  category    String
-  description String?        @db.Text
-  published   Boolean        @default(false)
+  name            String
+  category        String
+  description     String? @db.Text
+  shopAddress     String? @db.Text
+  marketplaceUrl  String?
+  published       Boolean @default(false)
+  archived    Boolean        @default(false)
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
   media       ProductMedia[]

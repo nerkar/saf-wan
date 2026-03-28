@@ -1,7 +1,5 @@
-/** @vercel-platform api-blob — multipart upload via lib/storage (Vercel Blob when token set) */
-import { auth } from "@/auth";
-import { getProductOpsBlockReason } from "@/lib/artisan-product-guard";
 import { prisma } from "@/lib/prisma";
+import { getVerifiedUserId } from "@/lib/session";
 import { uploadProductBlob } from "@/lib/storage";
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
@@ -9,20 +7,15 @@ import { revalidatePath } from "next/cache";
 type RouteParams = { params: Promise<{ productId: string }> };
 
 export async function POST(request: Request, { params }: RouteParams) {
-  const session = await auth();
-  if (!session?.user?.id) {
+  const userId = await getVerifiedUserId();
+  if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  const blocked = await getProductOpsBlockReason(session.user.id);
-  if (blocked) {
-    return NextResponse.json({ error: blocked }, { status: 403 });
   }
 
   const { productId } = await params;
 
   const product = await prisma.product.findFirst({
-    where: { id: productId, artisanId: session.user.id },
+    where: { id: productId, artisanId: userId, archived: false },
   });
   if (!product) {
     return NextResponse.json({ error: "Product not found" }, { status: 404 });
@@ -37,7 +30,7 @@ export async function POST(request: Request, { params }: RouteParams) {
   try {
     const { url, mediaType } = await uploadProductBlob({
       file,
-      userId: session.user.id,
+      userId,
       productId,
     });
 

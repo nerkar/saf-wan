@@ -9,7 +9,7 @@ export async function SiteHeader() {
     <header className="border-b border-stone-200 bg-white">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3">
         <Link href="/" className="font-semibold text-stone-900">
-          Handicraft verify
+          Saf-Wan
         </Link>
         <nav className="flex items-center gap-4 text-sm">
           <Link href="/" className="text-stone-600 hover:text-stone-900">

@@ -95,8 +95,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   callbacks: {
     async jwt({ token, user }) {
-      if (user?.id) {
-        token.sub = user.id;
+      if (user) {
+        let resolvedId =
+          typeof user.id === "string" && user.id.length > 0 ? user.id : null;
+        if (!resolvedId && user.email) {
+          const row = await prisma.user.findUnique({
+            where: { email: user.email },
+            select: { id: true },
+          });
+          resolvedId = row?.id ?? null;
+        }
+        if (resolvedId) {
+          token.sub = resolvedId;
+        }
       }
       return token;
     },

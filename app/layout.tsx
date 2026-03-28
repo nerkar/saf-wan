@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Handicraft verification",
+  title: "Saf-Wan",
   description: "Verify authentic handicraft products and artisan records.",
 };
 

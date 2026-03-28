@@ -1,29 +1,18 @@
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
-import { auth } from "@/auth";
-import { isVerifiedForProductOps } from "@/lib/artisan-product-guard";
+import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { requireUserId } from "@/lib/session";
 import { isBlobStorageConfigured } from "@/lib/storage";
 import { ProductEditForm } from "./product-edit-form";
 
 type Props = { params: Promise<{ productId: string }> };
 
 export default async function EditProductPage({ params }: Props) {
-  const session = await auth();
-  if (!session?.user?.id) {
-    redirect("/login");
-  }
-
-  const profile = await prisma.artisanProfile.findUnique({
-    where: { userId: session.user.id },
-  });
-  if (!isVerifiedForProductOps(profile?.verificationStatus)) {
-    redirect("/artisan");
-  }
+  const userId = await requireUserId();
 
   const { productId } = await params;
   const product = await prisma.product.findFirst({
-    where: { id: productId, artisanId: session.user.id },
+    where: { id: productId, artisanId: userId, archived: false },
     include: { media: { orderBy: { sortOrder: "asc" } } },
   });
 
@@ -52,6 +41,8 @@ export default async function EditProductPage({ params }: Props) {
           name: product.name,
           category: product.category,
           description: product.description,
+          shopAddress: product.shopAddress,
+          marketplaceUrl: product.marketplaceUrl,
           published: product.published,
           media: product.media.map((m) => ({
             id: m.id,
