@@ -15,7 +15,7 @@ export async function POST(request: Request, { params }: RouteParams) {
   const { productId } = await params;
 
   const product = await prisma.product.findFirst({
-    where: { id: productId, artisanId: session.user.id },
+    where: { id: productId, artisanId: session.user.id, archived: false },
   });
   if (!product) {
     return NextResponse.json({ error: "Product not found" }, { status: 404 });

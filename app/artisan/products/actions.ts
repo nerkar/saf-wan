@@ -146,7 +146,7 @@ export async function updateProduct(
   }
 
   const updated = await prisma.product.updateMany({
-    where: { id: productId, artisanId: session.user.id },
+    where: { id: productId, artisanId: session.user.id, archived: false },
     data: {
       name,
       category,
@@ -163,18 +163,19 @@ export async function updateProduct(
   return {};
 }
 
-export async function deleteProduct(productId: string): Promise<{ error?: string }> {
+export async function archiveProduct(productId: string): Promise<{ error?: string }> {
   const session = await auth();
   if (!session?.user?.id) {
     redirect("/login");
   }
 
-  const deleted = await prisma.product.deleteMany({
-    where: { id: productId, artisanId: session.user.id },
+  const updated = await prisma.product.updateMany({
+    where: { id: productId, artisanId: session.user.id, archived: false },
+    data: { archived: true, published: false },
   });
 
-  if (deleted.count === 0) {
-    return { error: "Product not found or access denied." };
+  if (updated.count === 0) {
+    return { error: "Product not found, already archived, or access denied." };
   }
 
   revalidatePath("/");
@@ -210,10 +211,10 @@ export async function addProductMediaFromUrl(
   }
 
   const product = await prisma.product.findFirst({
-    where: { id: productId, artisanId: session.user.id },
+    where: { id: productId, artisanId: session.user.id, archived: false },
   });
   if (!product) {
-    return { error: "Product not found or access denied." };
+    return { error: "Product not found, archived, or access denied." };
   }
 
   const agg = await prisma.productMedia.aggregate({
@@ -248,6 +249,9 @@ export async function removeProductMedia(mediaId: string): Promise<{ error?: str
   if (!media || media.product.artisanId !== session.user.id) {
     return { error: "Media not found or access denied." };
   }
+  if (media.product.archived) {
+    return { error: "Cannot change media on an archived product." };
+  }
 
   await prisma.productMedia.delete({ where: { id: mediaId } });
 
@@ -270,6 +274,9 @@ export async function moveProductMedia(
   });
   if (!media || media.product.artisanId !== session.user.id) {
     return { error: "Media not found or access denied." };
+  }
+  if (media.product.archived) {
+    return { error: "Cannot reorder media on an archived product." };
   }
 
   const siblings = await prisma.productMedia.findMany({

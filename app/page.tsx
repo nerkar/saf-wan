@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 
 export default async function HomePage() {
   const products = await prisma.product.findMany({
-    where: { published: true },
+    where: { published: true, archived: false },
     orderBy: { createdAt: "desc" },
     include: {
       artisan: { include: { artisanProfile: true } },

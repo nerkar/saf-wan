@@ -51,7 +51,7 @@ Used by dashboard and product forms. All actions enforce login + ownership where
 |--------|--------|
 | `createProduct` | Creates product + optional first image URL (quick path from “New product”). |
 | `updateProduct` | Fields + `published`; revalidates listing and verify paths. |
-| `deleteProduct` | Cascades media via Prisma; redirects to `/artisan`. |
+| `archiveProduct` | Sets `archived: true`, `published: false`; row and media remain; redirects to `/artisan`. |
 | `addProductMediaFromUrl` | Adds `ProductMedia` with explicit IMAGE/VIDEO. |
 | `removeProductMedia` | By `mediaId`; checks parent product owner. |
 | `moveProductMedia` | Swap `sortOrder` with sibling (`up` / `down`). |

@@ -15,7 +15,7 @@ export default async function EditProductPage({ params }: Props) {
 
   const { productId } = await params;
   const product = await prisma.product.findFirst({
-    where: { id: productId, artisanId: session.user.id },
+    where: { id: productId, artisanId: session.user.id, archived: false },
     include: { media: { orderBy: { sortOrder: "asc" } } },
   });
 

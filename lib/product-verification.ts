@@ -19,7 +19,7 @@ export async function getProductForVerification(
   productId: string,
 ): Promise<ProductVerificationPayload | null> {
   const product = await prisma.product.findFirst({
-    where: { id: productId, published: true },
+    where: { id: productId, published: true, archived: false },
     include: {
       artisan: {
         include: { artisanProfile: true },

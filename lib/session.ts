@@ -7,7 +7,7 @@ import { auth } from "@/auth";
  *
  * @example
  * const userId = await requireUserId();
- * await prisma.product.findMany({ where: { artisanId: userId } });
+ * await prisma.product.findMany({ where: { artisanId: userId, archived: false } });
  */
 export async function requireUserId(): Promise<string> {
   const session = await auth();

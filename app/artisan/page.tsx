@@ -13,7 +13,7 @@ export default async function ArtisanDashboardPage() {
   });
 
   const products = await prisma.product.findMany({
-    where: { artisanId: userId },
+    where: { artisanId: userId, archived: false },
     orderBy: { updatedAt: "desc" },
     include: { media: { take: 1 } },
   });

@@ -4,7 +4,7 @@ import { useActionState, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
   addProductMediaFromUrl,
-  deleteProduct,
+  archiveProduct,
   moveProductMedia,
   removeProductMedia,
   updateProduct,
@@ -28,7 +28,7 @@ export function ProductEditForm({ product, blobUploadEnabled }: ProductEditFormP
   const router = useRouter();
   const [updateState, updateAction] = useActionState(updateProduct, initial);
   const [urlState, urlAction] = useActionState(addProductMediaFromUrl, initial);
-  const [pendingDelete, startDelete] = useTransition();
+  const [pendingArchive, startArchive] = useTransition();
   const fileRef = useRef<HTMLInputElement>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -57,12 +57,16 @@ export function ProductEditForm({ product, blobUploadEnabled }: ProductEditFormP
     }
   }
 
-  function confirmAndDelete() {
-    if (!window.confirm("Delete this product and all its media? This cannot be undone.")) {
+  function confirmAndArchive() {
+    if (
+      !window.confirm(
+        "Archive this product? It will be hidden from your dashboard and the public site. The record stays in the system.",
+      )
+    ) {
       return;
     }
-    startDelete(async () => {
-      await deleteProduct(product.id);
+    startArchive(async () => {
+      await archiveProduct(product.id);
     });
   }
 
@@ -272,18 +276,20 @@ export function ProductEditForm({ product, blobUploadEnabled }: ProductEditFormP
         </div>
       </section>
 
-      <section className="border-t border-red-100 pt-8">
-        <h2 className="text-lg font-medium text-red-900">Danger zone</h2>
+      <section className="border-t border-amber-100 pt-8">
+        <h2 className="text-lg font-medium text-stone-900">Archive</h2>
         <p className="mt-1 text-sm text-stone-600">
-          Deleting removes the product and verification page until you create a new listing.
+          Archiving hides this product from your dashboard and from the public marketplace and
+          verification page. Media and details remain stored; contact support if you need the listing
+          restored.
         </p>
         <button
           type="button"
-          onClick={confirmAndDelete}
-          disabled={pendingDelete}
-          className="mt-3 rounded-md border border-red-300 bg-white px-4 py-2 text-sm font-medium text-red-800 hover:bg-red-50 disabled:opacity-50"
+          onClick={confirmAndArchive}
+          disabled={pendingArchive}
+          className="mt-3 rounded-md border border-amber-300 bg-amber-50 px-4 py-2 text-sm font-medium text-amber-950 hover:bg-amber-100 disabled:opacity-50"
         >
-          {pendingDelete ? "Deleting…" : "Delete product"}
+          {pendingArchive ? "Archiving…" : "Archive"}
         </button>
       </section>
     </div>

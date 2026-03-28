@@ -86,6 +86,7 @@ model Product {
   category    String
   description String?        @db.Text
   published   Boolean        @default(false)
+  archived    Boolean        @default(false)
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
   media       ProductMedia[]
