@@ -2,17 +2,17 @@ import QRCode from "qrcode";
 import { NextResponse } from "next/server";
 import { getProductVerificationUrl } from "@/lib/verification-url";
 
-type Params = { params: Promise<{ id: string }> };
+type Params = { params: Promise<{ productId: string }> };
 
 /**
- * QR image for a product. Encodes getProductVerificationUrl(id).
+ * QR image for a product. Encodes getProductVerificationUrl(productId).
  *
  * - Default: PNG (`Content-Type: image/png`)
  * - `?format=svg`: SVG (`Content-Type: image/svg+xml`)
  */
 export async function GET(request: Request, { params }: Params) {
-  const { id } = await params;
-  const targetUrl = getProductVerificationUrl(id);
+  const { productId } = await params;
+  const targetUrl = getProductVerificationUrl(productId);
   const format = new URL(request.url).searchParams.get("format");
 
   if (format === "svg") {

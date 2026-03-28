@@ -30,10 +30,10 @@ Unpublished or missing products: `/verify/[productId]` returns **404** (`not-fou
 
 | Endpoint | Behavior |
 |----------|----------|
-| `GET /api/products/[id]/qr` | PNG image (`image/png`). Encodes `getProductVerificationUrl(id)`. |
-| `GET /api/products/[id]/qr?format=svg` | SVG (`image/svg+xml`). Same encoded URL as PNG. |
+| `GET /api/products/[productId]/qr` | PNG image (`image/png`). Encodes `getProductVerificationUrl(productId)`. |
+| `GET /api/products/[productId]/qr?format=svg` | SVG (`image/svg+xml`). Same encoded URL as PNG. |
 
-Implementation: `app/api/products/[id]/qr/route.ts` (uses the `qrcode` package).
+Implementation: `app/api/products/[productId]/qr/route.ts` (uses the `qrcode` package).
 
 **Artisan UI:** `app/artisan/page.tsx` exposes **QR (PNG)** and **QR (SVG)** download actions per product.
 
@@ -44,7 +44,7 @@ Implementation: `app/api/products/[id]/qr/route.ts` (uses the `qrcode` package).
 | Marketplace / landing | `app/page.tsx` |
 | Verify UI + metadata | `app/verify/[productId]/page.tsx`, `app/verify/layout.tsx` |
 | Verify 404 | `app/verify/[productId]/not-found.tsx` |
-| QR route | `app/api/products/[id]/qr/route.ts` |
+| QR route | `app/api/products/[productId]/qr/route.ts` |
 | Verification URL helpers | `lib/verification-url.ts` |
 | Public payload (shared with Dev 2) | `lib/product-verification.ts` — `getProductForVerification` |
 | Global nav (login link) | `components/site-header.tsx` |

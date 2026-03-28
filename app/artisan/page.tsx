@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { auth } from "@/auth";
+import { VerificationBanner } from "@/components/artisan/verification-banner";
 import { prisma } from "@/lib/prisma";
+import { requireUserId } from "@/lib/session";
 import { getProductVerificationUrl } from "@/lib/verification-url";
 
 export default async function ArtisanDashboardPage() {
-  const session = await auth();
-  const userId = session!.user!.id;
+  const userId = await requireUserId();
 
   const profile = await prisma.artisanProfile.findUnique({
     where: { userId },
@@ -19,11 +19,18 @@ export default async function ArtisanDashboardPage() {
 
   return (
     <div className="space-y-8">
+      <VerificationBanner status={profile?.verificationStatus} />
+
       <div>
         <h1 className="text-2xl font-semibold text-stone-900">Artisan dashboard</h1>
         <p className="mt-1 text-sm text-stone-600">
           Verification:{" "}
           <span className="font-medium">{profile?.verificationStatus ?? "—"}</span>
+          {profile?.externalPortalId ? (
+            <span className="ml-2 text-stone-500">
+              (portal ref: {profile.externalPortalId})
+            </span>
+          ) : null}
         </p>
       </div>
 
@@ -59,6 +66,12 @@ export default async function ArtisanDashboardPage() {
                   </div>
                   <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
                     <div className="flex flex-wrap gap-2">
+                      <Link
+                        href={`/artisan/products/${p.id}/edit`}
+                        className="inline-flex min-h-[44px] items-center justify-center rounded-md border border-stone-300 px-3 py-2 text-sm text-stone-800 hover:bg-stone-50"
+                      >
+                        Edit
+                      </Link>
                       <a
                         href={`/api/products/${p.id}/qr`}
                         download={`qr-${p.id}.png`}

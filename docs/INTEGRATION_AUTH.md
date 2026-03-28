@@ -50,7 +50,7 @@ const id = await getOptionalUserId();
 
 ## Protected routes
 
-- **`/artisan/*`** is protected by [`app/artisan/layout.tsx`](../app/artisan/layout.tsx) using `auth()` — unauthenticated users are redirected to `/login`.
+- **`/artisan/*`** is protected by [`app/artisan/layout.tsx`](../app/artisan/layout.tsx) using `requireUserId()` — unauthenticated users are redirected to `/login`.
 - There is **no** `middleware.ts` for auth yet; protection is layout-based. Add middleware later if you need edge-level redirects.
 
 ## Database models (auth-related)
