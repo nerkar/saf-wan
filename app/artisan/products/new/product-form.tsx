@@ -1,12 +1,12 @@
 "use client";
 
-import { useFormState } from "react-dom";
-import { createProduct } from "@/app/artisan/actions";
+import { useActionState } from "react";
+import { createProduct } from "@/app/artisan/products/actions";
 
 const initial: { error?: string } = {};
 
 export function ProductForm() {
-  const [state, formAction] = useFormState(createProduct, initial);
+  const [state, formAction] = useActionState(createProduct, initial);
 
   return (
     <form action={formAction} className="space-y-4">

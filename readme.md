@@ -11,15 +11,14 @@ The team works from a **single implementation plan** so parallel work stays inte
 | What | Where |
 |------|--------|
 | **Full plan (workflow, contracts, per-developer tasks)** | [docs/implementation-plan.md](docs/implementation-plan.md) |
-| **Platform: gov stub, storage, env, Prisma merges, Vercel** | [docs/integration-platform.md](docs/integration-platform.md) |
-| **Auth & sessions (Dev 1 integration)** | [docs/INTEGRATION_AUTH.md](docs/INTEGRATION_AUTH.md) |
+| **Dev 2 — products & media integration** | [docs/INTEGRATION_DEV2_PRODUCTS.md](docs/INTEGRATION_DEV2_PRODUCTS.md) |
 | **AI/editor guidance** | [.cursorrules](.cursorrules) at repo root |
 
 ### How to use the plan
 
 1. **New contributor:** Follow [docs/DEV_ENVIRONMENT.md](docs/DEV_ENVIRONMENT.md), then read [docs/implementation-plan.md](docs/implementation-plan.md) and [.cursorrules](.cursorrules).
 2. **Before coding a feature:** Confirm your workstream (Dev 1–4) and dependencies in the plan; do not break **integration contracts** (product IDs, `/verify/[productId]`, `getProductForVerification`, `lib/government/` only for gov verification).
-3. **Database changes:** Coordinate with **Developer 4** (migration process owner). See [docs/integration-platform.md](docs/integration-platform.md#prisma-migrations-coordination).
+3. **Database changes:** Coordinate with the agreed **Prisma migration owner** (see plan — Developer 4) before merging migrations.
 4. **Merging:** Follow the plan’s **merge order** (platform stub → auth → products → public/QR → integration branch).
 
 Updating the plan document in-repo is a **team decision** (e.g. after changing scope or APIs).
@@ -38,18 +37,14 @@ Updating the plan document in-repo is a **team decision** (e.g. after changing s
 saf-wan/
 ├── .cursorrules              # Cursor / AI project rules
 ├── docs/
-│   ├── implementation-plan.md
-│   ├── INTEGRATION_AUTH.md
-│   └── integration-platform.md
+│   └── implementation-plan.md
 ├── app/
 │   ├── (public)/             # Landing, marketplace, /verify — public routes
-│   ├── artisan/              # Protected artisan dashboard (Auth.js)
+│   ├── (artisan)/            # Protected artisan dashboard (Auth.js)
 │   └── api/                  # Route handlers (upload, webhooks, etc.)
 ├── lib/
-│   ├── government/           # Gov types + verifyArtisanWithGovernment (stub only)
-│   ├── storage/              # Server-only uploads (Vercel Blob via BLOB_READ_WRITE_TOKEN)
-│   ├── env/                  # Optional server env diagnostics (getServerEnvIssues)
-│   └── ...                   # db, auth helpers, getProductForVerification, etc.
+│   ├── government/           # Gov API types + verifyArtisanWithGovernment (stub)
+│   └── ...                   # Shared server utilities (db, storage, auth helpers)
 ├── prisma/
 │   └── schema.prisma
 ├── public/                   # Static assets

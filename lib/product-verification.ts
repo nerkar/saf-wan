@@ -1,6 +1,9 @@
 import { prisma } from "@/lib/prisma";
 
-/** Public-safe payload for `/verify/[productId]` — no secrets. */
+/**
+ * Public-safe payload for `/verify/[productId]` — no secrets.
+ * Contract for Developer 3 / integration: see docs/INTEGRATION_DEV2_PRODUCTS.md.
+ */
 export type ProductVerificationPayload = {
   product: {
     id: string;
@@ -15,6 +18,7 @@ export type ProductVerificationPayload = {
   media: { url: string; type: "IMAGE" | "VIDEO"; sortOrder: number }[];
 };
 
+/** Server-only. Only returns published products; use for all public verification UIs. */
 export async function getProductForVerification(
   productId: string,
 ): Promise<ProductVerificationPayload | null> {
