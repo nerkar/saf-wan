@@ -1,15 +1,15 @@
-import { redirect } from "next/navigation";
-import { auth } from "@/auth";
+import { requireUserId } from "@/lib/session";
 
+/**
+ * All routes under `/artisan` require a signed-in user.
+ * @see docs/INTEGRATION_AUTH.md
+ */
 export default async function ArtisanLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
-  if (!session?.user?.id) {
-    redirect("/login");
-  }
+  await requireUserId();
 
   return <div className="space-y-6">{children}</div>;
 }

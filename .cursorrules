@@ -7,6 +7,7 @@ Digital verification portal: artisans register, list products, generate QR codes
 ## Source of truth
 
 - **Implementation plan and merge order:** [docs/implementation-plan.md](docs/implementation-plan.md). Follow it for parallel work and integration contracts.
+- **Auth / sessions / `userId` for scoped queries:** [docs/INTEGRATION_AUTH.md](docs/INTEGRATION_AUTH.md).
 - **Tech stack:** Next.js (App Router), TypeScript, Prisma, PostgreSQL, Auth.js (Google + email/password), Vercel, object storage for media.
 
 ## Non-negotiable integration contracts

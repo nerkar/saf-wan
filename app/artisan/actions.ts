@@ -2,17 +2,14 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { requireUserId } from "@/lib/session";
 
 export async function createProduct(
   _prev: { error?: string } | undefined,
   formData: FormData,
 ): Promise<{ error?: string }> {
-  const session = await auth();
-  if (!session?.user?.id) {
-    redirect("/login");
-  }
+  const userId = await requireUserId();
 
   const name = String(formData.get("name") ?? "").trim();
   const category = String(formData.get("category") ?? "").trim();
@@ -26,7 +23,7 @@ export async function createProduct(
 
   await prisma.product.create({
     data: {
-      artisanId: session.user.id,
+      artisanId: userId,
       name,
       category,
       description: description || null,
