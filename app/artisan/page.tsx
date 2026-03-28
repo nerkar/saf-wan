@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { QrPngPreviewButton } from "@/components/artisan/qr-png-preview-button";
 import { VerificationBanner } from "@/components/artisan/verification-banner";
 import { prisma } from "@/lib/prisma";
 import { requireUserId } from "@/lib/session";
@@ -72,19 +73,17 @@ export default async function ArtisanDashboardPage() {
                       >
                         Edit
                       </Link>
-                      <a
-                        href={`/api/products/${p.id}/qr`}
-                        download={`qr-${p.id}.png`}
-                        className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md border border-stone-300 px-3 py-2 text-sm text-stone-800 hover:bg-stone-50"
-                      >
-                        QR (PNG)
-                      </a>
+                      <QrPngPreviewButton
+                        productId={p.id}
+                        productName={p.name}
+                        verifyUrl={verifyUrl}
+                      />
                       <a
                         href={`/api/products/${p.id}/qr?format=svg`}
                         download={`qr-${p.id}.svg`}
                         className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md border border-stone-300 px-3 py-2 text-sm text-stone-800 hover:bg-stone-50"
                       >
-                        QR (SVG)
+                        QR (Download)
                       </a>
                     </div>
                     <span className="text-xs text-stone-500 break-all sm:max-w-xs sm:truncate">
