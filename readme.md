@@ -11,7 +11,7 @@ The team works from a **single implementation plan** so parallel work stays inte
 | What | Where |
 |------|--------|
 | **Full plan (workflow, contracts, per-developer tasks)** | [docs/implementation-plan.md](docs/implementation-plan.md) |
-| **Dev 2 — products & media integration** | [docs/INTEGRATION_DEV2_PRODUCTS.md](docs/INTEGRATION_DEV2_PRODUCTS.md) |
+| **Public site, `/verify`, QR codes (Dev 3)** | [docs/public-site-and-qr.md](docs/public-site-and-qr.md) |
 | **AI/editor guidance** | [.cursorrules](.cursorrules) at repo root |
 
 ### How to use the plan
