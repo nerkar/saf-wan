@@ -1,10 +1,10 @@
-import { auth } from "@/auth";
 import { uploadArtisanDraftBlob } from "@/lib/storage";
+import { getVerifiedUserId } from "@/lib/session";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
-  const session = await auth();
-  if (!session?.user?.id) {
+  const userId = await getVerifiedUserId();
+  if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -17,7 +17,7 @@ export async function POST(request: Request) {
   try {
     const { url, mediaType } = await uploadArtisanDraftBlob({
       file,
-      userId: session.user.id,
+      userId,
     });
     return NextResponse.json({ url, mediaType });
   } catch (e) {

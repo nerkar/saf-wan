@@ -2,8 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { requireUserId } from "@/lib/session";
 import type { MediaType } from "@prisma/client";
 
 function revalidateProduct(productId: string) {
@@ -98,10 +98,7 @@ export async function createProduct(
   _prev: { error?: string } | undefined,
   formData: FormData,
 ): Promise<{ error?: string }> {
-  const session = await auth();
-  if (!session?.user?.id) {
-    redirect("/login");
-  }
+  const userId = await requireUserId();
 
   const name = String(formData.get("name") ?? "").trim();
   const category = String(formData.get("category") ?? "").trim();
@@ -131,27 +128,26 @@ export async function createProduct(
 
   const created = await prisma.product.create({
     data: {
-      artisanId: session.user.id,
+      artisanId: userId,
       name,
       category,
       description: description || null,
       shopAddress: shopAddress || null,
       marketplaceUrl: marketplaceParsed.value,
       published,
-      media:
-        mediaItems.length > 0
-          ? {
-              createMany: {
-                data: mediaItems.map((m, i) => ({
-                  url: m.url,
-                  type: m.type,
-                  sortOrder: i,
-                })),
-              },
-            }
-          : undefined,
     },
   });
+
+  if (mediaItems.length > 0) {
+    await prisma.productMedia.createMany({
+      data: mediaItems.map((m, i) => ({
+        productId: created.id,
+        url: m.url,
+        type: m.type,
+        sortOrder: i,
+      })),
+    });
+  }
 
   revalidateProduct(created.id);
   redirect("/artisan");
@@ -161,10 +157,7 @@ export async function updateProduct(
   _prev: { error?: string } | undefined,
   formData: FormData,
 ): Promise<{ error?: string }> {
-  const session = await auth();
-  if (!session?.user?.id) {
-    redirect("/login");
-  }
+  const userId = await requireUserId();
 
   const productId = String(formData.get("productId") ?? "").trim();
   const name = String(formData.get("name") ?? "").trim();
@@ -190,7 +183,7 @@ export async function updateProduct(
   }
 
   const updated = await prisma.product.updateMany({
-    where: { id: productId, artisanId: session.user.id, archived: false },
+    where: { id: productId, artisanId: userId, archived: false },
     data: {
       name,
       category,
@@ -210,13 +203,10 @@ export async function updateProduct(
 }
 
 export async function archiveProduct(productId: string): Promise<{ error?: string }> {
-  const session = await auth();
-  if (!session?.user?.id) {
-    redirect("/login");
-  }
+  const userId = await requireUserId();
 
   const updated = await prisma.product.updateMany({
-    where: { id: productId, artisanId: session.user.id, archived: false },
+    where: { id: productId, artisanId: userId, archived: false },
     data: { archived: true, published: false },
   });
 
@@ -234,10 +224,7 @@ export async function addProductMediaFromUrl(
   _prev: { error?: string } | undefined,
   formData: FormData,
 ): Promise<{ error?: string }> {
-  const session = await auth();
-  if (!session?.user?.id) {
-    redirect("/login");
-  }
+  const userId = await requireUserId();
 
   const productId = String(formData.get("productId") ?? "").trim();
   const url = String(formData.get("url") ?? "").trim();
@@ -257,7 +244,7 @@ export async function addProductMediaFromUrl(
   }
 
   const product = await prisma.product.findFirst({
-    where: { id: productId, artisanId: session.user.id, archived: false },
+    where: { id: productId, artisanId: userId, archived: false },
   });
   if (!product) {
     return { error: "Product not found, archived, or access denied." };
@@ -283,16 +270,13 @@ export async function addProductMediaFromUrl(
 }
 
 export async function removeProductMedia(mediaId: string): Promise<{ error?: string }> {
-  const session = await auth();
-  if (!session?.user?.id) {
-    redirect("/login");
-  }
+  const userId = await requireUserId();
 
   const media = await prisma.productMedia.findUnique({
     where: { id: mediaId },
     include: { product: true },
   });
-  if (!media || media.product.artisanId !== session.user.id) {
+  if (!media || media.product.artisanId !== userId) {
     return { error: "Media not found or access denied." };
   }
   if (media.product.archived) {
@@ -309,16 +293,13 @@ export async function moveProductMedia(
   mediaId: string,
   direction: "up" | "down",
 ): Promise<{ error?: string }> {
-  const session = await auth();
-  if (!session?.user?.id) {
-    redirect("/login");
-  }
+  const userId = await requireUserId();
 
   const media = await prisma.productMedia.findUnique({
     where: { id: mediaId },
     include: { product: true },
   });
-  if (!media || media.product.artisanId !== session.user.id) {
+  if (!media || media.product.artisanId !== userId) {
     return { error: "Media not found or access denied." };
   }
   if (media.product.archived) {
