@@ -1,20 +1,16 @@
-import type { VerificationStatus } from "@prisma/client";
+import type {
+  GovernmentVerificationInput,
+  GovernmentVerificationResult,
+} from "./types";
 
-export type GovernmentVerificationInput = {
-  /** Optional ID from Indian Handicrafts Portal when integrated */
-  externalPortalId?: string | null;
-  email?: string | null;
-  displayName?: string | null;
-};
-
-export type GovernmentVerificationResult = {
-  status: VerificationStatus;
-  externalPortalId?: string | null;
-  message?: string;
-};
+export type {
+  GovernmentVerificationInput,
+  GovernmentVerificationResult,
+  GovernmentVerificationStatus,
+} from "./types";
 
 /**
- * Stub: replace body with real HTTP call to indian.handicrafts.gov.in when ready.
+ * Stub: replace body with real HTTP call to the official portal when ready.
  * Keep this as the only integration surface for government verification.
  */
 export async function verifyArtisanWithGovernment(

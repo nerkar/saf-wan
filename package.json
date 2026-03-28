@@ -16,12 +16,14 @@
   "dependencies": {
     "@auth/prisma-adapter": "^2.8.0",
     "@prisma/client": "^6.5.0",
+    "@vercel/blob": "^2.3.2",
     "bcryptjs": "^2.4.3",
     "next": "^15.2.0",
     "next-auth": "^5.0.0-beta.25",
     "qrcode": "^1.5.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.0",

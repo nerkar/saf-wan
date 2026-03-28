@@ -143,6 +143,13 @@ AUTH_GOOGLE_SECRET="<your-client-secret>"
 
 Use per-developer OAuth clients or shared test credentials from a **secure** channel — never commit secrets.
 
+### 3.5 Object storage (product media)
+
+When implementing uploads (see `lib/storage` and [integration-platform.md](integration-platform.md)):
+
+1. On **Vercel:** create a Blob store for the project and add `BLOB_READ_WRITE_TOKEN` to the environment (and to local `.env` for testing uploads).
+2. Locally, leave `BLOB_READ_WRITE_TOKEN` empty if you are not testing uploads; `uploadPublicMedia` will throw until the token is set.
+
 ---
 
 ## 4. Install dependencies and database (after Next.js + Prisma exist)

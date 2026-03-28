@@ -53,6 +53,7 @@ This document is the **in-repo** copy of the team plan. Use it for day-to-day wo
 
 ## Developer 4 — Platform, stub, storage, Vercel
 
+- **Integration handoff:** [integration-platform.md](integration-platform.md) — government module, storage API, `.env`, Prisma coordination, Vercel, smoke checklist.
 - `lib/government/`: types + stub (no network).
 - Centralized storage client; optional env validation.
 - `.env.example`, README setup, Prisma workflow with Dev 1/2.
