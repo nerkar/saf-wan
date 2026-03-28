@@ -2,12 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 import { verifyArtisanWithGovernment } from "@/lib/government";
+import { parseTenDigitIndianMobile } from "@/lib/mobile-validation";
 import { prisma } from "@/lib/prisma";
 import { requireUserId } from "@/lib/session";
-
-function digitsOnly(s: string): string {
-  return s.replace(/\D/g, "");
-}
 
 export async function updateArtisanProfile(
   _prev: { error?: string; success?: boolean } | undefined,
@@ -36,10 +33,11 @@ export async function updateArtisanProfile(
   if (govMobileRaw === "") {
     govMobile = profile.govMobile;
   } else {
-    govMobile = digitsOnly(govMobileRaw);
-    if (govMobile.length < 4) {
-      return { error: "Enter at least 4 digits so the last 4 can be matched to the registry." };
+    const mobileParsed = parseTenDigitIndianMobile(govMobileRaw);
+    if (!mobileParsed.ok) {
+      return { error: mobileParsed.message };
     }
+    govMobile = mobileParsed.digits;
   }
 
   if (!govMobile && googleAccount) {

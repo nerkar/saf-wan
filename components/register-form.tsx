@@ -18,18 +18,27 @@ export function RegisterForm() {
       <form action={formAction} className="space-y-4">
         <div>
           <label htmlFor="govMobile" className="block text-sm font-medium text-stone-700">
-            Mobile <span className="text-stone-500">(required — last 4 digits must match the registry)</span>
+            Mobile{" "}
+            <span className="text-stone-500">
+              (required — 10-digit Indian number; last 4 digits must match the registry)
+            </span>
           </label>
           <input
             id="govMobile"
             name="govMobile"
             type="tel"
             required
-            inputMode="numeric"
+            inputMode="tel"
             autoComplete="tel"
-            placeholder="e.g. 10-digit number; verification uses the last 4 digits only"
+            maxLength={20}
+            placeholder="9876543210 or +91 9876543210"
+            title="Enter a valid 10-digit Indian mobile (6–9 first digit). +91 or leading 0 allowed."
             className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
           />
+          <p className="mt-1 text-xs text-stone-500">
+            Exactly 10 digits after normalization. You may prefix +91 or use a leading 0 for STD-style
+            entry.
+          </p>
         </div>
 
         <div>

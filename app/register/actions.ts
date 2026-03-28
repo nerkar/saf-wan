@@ -3,11 +3,8 @@
 import bcrypt from "bcryptjs";
 import { redirect } from "next/navigation";
 import { verifyArtisanWithGovernment } from "@/lib/government";
+import { parseTenDigitIndianMobile } from "@/lib/mobile-validation";
 import { prisma } from "@/lib/prisma";
-
-function digitsOnly(s: string): string {
-  return s.replace(/\D/g, "");
-}
 
 export async function registerArtisan(
   _prev: { error?: string } | undefined,
@@ -32,10 +29,11 @@ export async function registerArtisan(
     return { error: "Mobile number is required for registry verification (last 4 digits must match)." };
   }
 
-  const govMobile = digitsOnly(govMobileRaw);
-  if (govMobile.length < 4) {
-    return { error: "Enter at least 4 digits so the last 4 can be matched to the registry." };
+  const mobileParsed = parseTenDigitIndianMobile(govMobileRaw);
+  if (!mobileParsed.ok) {
+    return { error: mobileParsed.message };
   }
+  const govMobile = mobileParsed.digits;
 
   const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) {

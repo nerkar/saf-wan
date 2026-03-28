@@ -62,24 +62,30 @@ export function ArtisanProfileEditForm(props: Props) {
             Mobile{" "}
             <span className="text-stone-500">
               ({mobileRequired ? "required — " : ""}
-              last 4 digits must match the registry)
+              10-digit Indian number; last 4 digits must match the registry)
             </span>
           </label>
           <input
             id="govMobile"
             name="govMobile"
             type="tel"
-            inputMode="numeric"
+            inputMode="tel"
             autoComplete="tel"
             required={mobileRequired}
+            maxLength={20}
             placeholder={
               props.hasMobileOnFile
-                ? "Leave blank to keep current number; or enter a new full number"
-                : "e.g. 10-digit number; verification uses the last 4 digits only"
+                ? "Leave blank to keep current; or new 10-digit / +91 number"
+                : "9876543210 or +91 9876543210"
             }
+            title="Enter a valid 10-digit Indian mobile (6–9 first digit). +91 or leading 0 allowed."
             defaultValue={props.defaultGovMobile}
             className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
           />
+          <p className="mt-1 text-xs text-stone-500">
+            Exactly 10 digits. Optional +91 or leading 0. Leave blank only when you already have a
+            number on file and want to keep it.
+          </p>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
