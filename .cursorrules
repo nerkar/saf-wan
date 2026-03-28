@@ -1,0 +1,34 @@
+# Handicraft verification portal — Cursor / AI rules
+
+## Project intent
+
+Digital verification portal: artisans register, list products, generate QR codes linking to a public verification URL; buyers scan QR to see authenticity details. Government API integration (Indian Handicrafts Portal) is stubbed until real integration.
+
+## Source of truth
+
+- **Implementation plan and merge order:** [docs/implementation-plan.md](docs/implementation-plan.md). Follow it for parallel work and integration contracts.
+- **Tech stack:** Next.js (App Router), TypeScript, Prisma, PostgreSQL, Auth.js (Google + email/password), Vercel, object storage for media.
+
+## Non-negotiable integration contracts
+
+1. **Product IDs:** UUID (or CUID) for `Product.id` — stable QR URLs.
+2. **Verification URL:** `/verify/[productId]` — public page; data via `getProductForVerification(productId)` only (public-safe payload).
+3. **Artisan linkage:** `Product.artisanId` → `User.id`; `User` / `ArtisanProfile` owned by auth workstream.
+4. **Government verification:** Use `lib/government/` (`verifyArtisanWithGovernment`) — no duplicate stub logic elsewhere.
+5. **Session:** Scope server-side queries with `session.user.id`; document shape for collaborators.
+
+## Coding principles
+
+- Match existing patterns in this repo (imports, naming, Prisma usage).
+- Prefer small, focused changes; no drive-by refactors unrelated to the task.
+- Server-only secrets: database URLs, OAuth secrets, storage keys — never expose to client bundles.
+- Keep UI mobile-friendly for QR landing pages.
+
+## Prisma migrations
+
+- Coordinate schema changes; one migration owner per team agreement (see implementation plan). Avoid conflicting migrations on `main`.
+
+## Out of scope for prototype (unless explicitly requested)
+
+- Real HTTP to production government API before integration task.
+- SMS OTP; video transcoding.
