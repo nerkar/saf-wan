@@ -23,13 +23,13 @@ export default async function EditProductPage({ params }: Props) {
   const blobUploadEnabled = isBlobStorageConfigured();
 
   return (
-    <div className="mx-auto max-w-2xl space-y-6">
-      <div>
-        <Link href="/artisan" className="text-sm text-stone-600 hover:text-stone-900">
+    <div className="mx-auto max-w-2xl space-y-8">
+      <div className="craft-card-elevated p-6 sm:p-8">
+        <Link href="/artisan" className="craft-nav-link -ml-1 inline-flex text-sm">
           ← Dashboard
         </Link>
-        <h1 className="mt-2 text-2xl font-semibold text-stone-900">Edit product</h1>
-        <p className="mt-1 text-sm text-stone-600">
+        <h1 className="craft-heading mt-4 text-2xl sm:text-3xl">Edit product</h1>
+        <p className="mt-3 text-sm leading-relaxed text-[var(--craft-muted)]">
           Update details and manage media. Published products appear on the home page and on the public
           verification URL.
         </p>

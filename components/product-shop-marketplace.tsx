@@ -28,24 +28,24 @@ export function ProductShopAndMarketplace({
   }
 
   return (
-    <div className={`space-y-1.5 text-sm text-stone-600 ${className}`.trim()}>
+    <div className={`space-y-1.5 text-sm text-[var(--craft-muted)] ${className}`.trim()}>
       {shopAddress ? (
         <p className="text-pretty">
-          <span className="font-medium text-stone-700">Shop address</span>
-          <span className="text-stone-500"> · </span>
+          <span className="font-medium text-[var(--craft-ink)]">Shop address</span>
+          <span className="text-stone-400"> · </span>
           {shopAddress}
         </p>
       ) : null}
       {marketplaceUrl ? (
         <p className="min-w-0">
-          <span className="font-medium text-stone-700">Marketplace</span>
-          <span className="text-stone-500"> · </span>
+          <span className="font-medium text-[var(--craft-ink)]">Marketplace</span>
+          <span className="text-stone-400"> · </span>
           <a
             href={marketplaceUrl}
             title={marketplaceUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-stone-800 underline decoration-stone-300 underline-offset-2 hover:text-stone-900"
+            className="craft-link font-normal"
           >
             {truncateMarketplaceLabel(marketplaceUrl)}
           </a>

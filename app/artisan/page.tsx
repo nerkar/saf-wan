@@ -24,25 +24,25 @@ export default async function ArtisanDashboardPage() {
   });
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       <VerificationBanner status={profile?.verificationStatus} />
 
-      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
+      <section className="craft-card-elevated p-6 sm:flex sm:flex-row sm:items-start sm:justify-between sm:gap-6">
         <div>
-          <h1 className="text-2xl font-semibold text-stone-900">Artisan dashboard</h1>
+          <h1 className="craft-heading text-3xl">Artisan dashboard</h1>
           {user?.email ? (
-            <p className="mt-1 text-sm text-stone-600">
-              Signed in as <span className="font-medium text-stone-800">{user.email}</span>
+            <p className="mt-2 text-sm text-[var(--craft-muted)]">
+              Signed in as <span className="font-medium text-[var(--craft-ink)]">{user.email}</span>
             </p>
           ) : null}
         </div>
         <Link
           href="/artisan/profile"
-          className="inline-flex min-h-[44px] shrink-0 items-center justify-center rounded-md border border-stone-300 px-3 py-2 text-sm font-medium text-stone-800 hover:bg-stone-50"
+          className="craft-btn-secondary mt-4 inline-flex min-h-[44px] shrink-0 items-center justify-center sm:mt-0"
         >
           Edit registry profile
         </Link>
-      </div>
+      </section>
 
       {profile ? (
         <ArtistProfileDetails
@@ -63,31 +63,36 @@ export default async function ArtisanDashboardPage() {
         <div className="flex flex-wrap gap-3">
           <Link
             href="/artisan/products/new"
-            className="inline-flex rounded-md bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800"
+            className="craft-btn-primary inline-flex min-h-[44px] px-5 py-2.5 text-sm"
           >
             Add product
           </Link>
         </div>
       ) : null}
 
-      <section>
-        <h2 className="mb-3 text-lg font-medium text-stone-900">Your products</h2>
+      <section className="space-y-4">
+        <div className="flex items-center gap-3 border-b border-[var(--craft-border)] pb-2">
+          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--craft-accent)]" aria-hidden />
+          <h2 className="craft-heading text-xl">Your products</h2>
+        </div>
         {products.length === 0 ? (
-          <p className="text-sm text-stone-600">No products yet. Create one to get a QR code.</p>
+          <div className="craft-card p-6 text-sm text-[var(--craft-muted)]">
+            No products yet. Create one to get a QR code.
+          </div>
         ) : (
-          <ul className="space-y-3">
+          <ul className="space-y-4">
             {products.map((p) => {
               const verifyUrl = getProductVerificationUrl(p.id);
               return (
                 <li
                   key={p.id}
-                  className="flex flex-col gap-2 rounded-lg border border-stone-200 bg-white p-4 sm:flex-row sm:items-center sm:justify-between"
+                  className="craft-card flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between"
                 >
                   <div>
-                    <Link href={`/verify/${p.id}`} className="font-medium text-stone-900 underline">
+                    <Link href={`/verify/${p.id}`} className="craft-link font-semibold">
                       {p.name}
                     </Link>
-                    <p className="text-sm text-stone-600">
+                    <p className="text-sm text-[var(--craft-muted)]">
                       {p.category} · {p.published ? "Published" : "Draft"}
                     </p>
                   </div>
@@ -95,26 +100,26 @@ export default async function ArtisanDashboardPage() {
                     <div className="flex flex-wrap gap-2">
                       <Link
                         href={`/artisan/products/${p.id}/edit`}
-                        className="inline-flex min-h-[44px] items-center justify-center rounded-md border border-stone-300 px-3 py-2 text-sm text-stone-800 hover:bg-stone-50"
+                        className="craft-btn-secondary min-h-[44px] px-3 py-2 text-sm"
                       >
                         Edit
                       </Link>
                       <a
                         href={`/api/products/${p.id}/qr`}
                         download={`qr-${p.id}.png`}
-                        className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md border border-stone-300 px-3 py-2 text-sm text-stone-800 hover:bg-stone-50"
+                        className="craft-btn-secondary min-h-[44px] min-w-[44px] px-3 py-2 text-sm"
                       >
                         QR (PNG)
                       </a>
                       <a
                         href={`/api/products/${p.id}/qr?format=svg`}
                         download={`qr-${p.id}.svg`}
-                        className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md border border-stone-300 px-3 py-2 text-sm text-stone-800 hover:bg-stone-50"
+                        className="craft-btn-secondary min-h-[44px] min-w-[44px] px-3 py-2 text-sm"
                       >
                         QR (SVG)
                       </a>
                     </div>
-                    <span className="text-xs text-stone-500 break-all sm:max-w-xs sm:truncate">
+                    <span className="break-all text-xs text-stone-500 sm:max-w-xs sm:truncate">
                       {verifyUrl}
                     </span>
                   </div>

@@ -27,58 +27,68 @@ export default async function VerifyPage({ params }: Props) {
   }
 
   return (
-    <div className="space-y-6 pb-[env(safe-area-inset-bottom,0px)]">
+    <div className="space-y-8 pb-[env(safe-area-inset-bottom,0px)]">
       <nav className="text-sm">
-        <Link href="/" className="font-medium text-stone-700 underline decoration-stone-300 underline-offset-2 hover:text-stone-900">
+        <Link href="/" className="craft-nav-link inline-flex font-medium">
           ← Marketplace
         </Link>
       </nav>
 
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-stone-900">Product verification</h1>
-        <p className="mt-1 text-sm text-stone-600">Public authenticity details for this listing.</p>
-      </div>
+      <header className="craft-section px-5 py-6 sm:px-8 sm:py-7">
+        <h1 className="craft-heading text-2xl tracking-tight sm:text-3xl">Product verification</h1>
+        <p className="mt-2 text-sm leading-relaxed text-[var(--craft-muted)]">
+          Public authenticity details for this listing.
+        </p>
+      </header>
 
-      <section className="rounded-xl border border-stone-200 bg-white p-5 shadow-sm sm:p-6">
-        <h2 className="text-lg font-medium text-stone-900">{data.product.name}</h2>
-        <p className="mt-1 text-sm text-stone-600">{data.product.category}</p>
+      <section className="craft-card-elevated p-5 sm:p-7">
+        <h2 className="craft-heading text-xl">{data.product.name}</h2>
+        <p className="mt-1 text-sm text-[var(--craft-muted)]">{data.product.category}</p>
         {data.product.description ? (
-          <p className="mt-3 text-pretty text-stone-800">{data.product.description}</p>
+          <p className="mt-4 text-pretty leading-relaxed text-[var(--craft-ink)]">{data.product.description}</p>
         ) : null}
         <ProductShopAndMarketplace
           shopAddress={data.product.shopAddress}
           marketplaceUrl={data.product.marketplaceUrl}
-          className="mt-4 border-t border-stone-100 pt-4"
+          className="mt-5 border-t border-[var(--craft-border)] pt-5"
         />
       </section>
 
-      <section className="rounded-xl border border-stone-100 bg-stone-50/80 p-5 sm:p-6">
-        <h3 className="text-xs font-medium uppercase tracking-wide text-stone-500">Artisan</h3>
-        <p className="mt-2 text-base text-stone-900">{data.artisan.displayName ?? "—"}</p>
+      <section className="craft-card-elevated bg-[var(--craft-surface-muted)] p-5 sm:p-7">
+        <h3 className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--craft-muted)]">
+          Artisan
+        </h3>
+        <p className="mt-3 text-lg text-[var(--craft-ink)]">{data.artisan.displayName ?? "—"}</p>
         <p className="mt-1 text-xs text-stone-500">Public ID: {data.artisan.publicId}</p>
       </section>
 
       {data.media.length > 0 ? (
-        <section>
-          <h3 className="text-xs font-medium uppercase tracking-wide text-stone-500">
-            Proof of authenticity
-          </h3>
-          <ul className="mt-3 grid gap-4 sm:grid-cols-2">
+        <section className="space-y-4">
+          <div className="flex items-center gap-3 border-b border-[var(--craft-border)] pb-2">
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--craft-accent)]" aria-hidden />
+            <h3 className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--craft-muted)]">
+              Proof of authenticity
+            </h3>
+          </div>
+          <ul className="grid gap-4 sm:grid-cols-2">
             {data.media.map((m) => (
-              <li key={`${m.url}-${m.sortOrder}`}>
+              <li
+                key={`${m.url}-${m.sortOrder}`}
+                className="overflow-hidden rounded-xl border border-[var(--craft-border)] bg-[var(--craft-surface)] shadow-sm"
+              >
                 {m.type === "VIDEO" ? (
                   <video
                     src={m.url}
                     controls
                     playsInline
-                    className="w-full rounded-lg border border-stone-200 bg-black"
+                    className="w-full bg-black"
                   />
                 ) : (
                   // eslint-disable-next-line @next/next/no-img-element -- user-provided media URLs
                   <img
                     src={m.url}
                     alt=""
-                    className="max-h-80 w-full rounded-lg border border-stone-200 object-cover"
+                    className="max-h-80 w-full object-cover"
                   />
                 )}
               </li>

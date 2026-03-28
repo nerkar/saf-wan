@@ -6,15 +6,19 @@ export default function LoginPage() {
     Boolean(process.env.AUTH_GOOGLE_ID) && Boolean(process.env.AUTH_GOOGLE_SECRET);
 
   return (
-    <div className="mx-auto max-w-md space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-stone-900">Artisan login</h1>
-        <p className="mt-1 text-sm text-stone-600">Sign in to manage products and QR codes.</p>
+    <div className="mx-auto max-w-md space-y-8">
+      <div className="craft-card-elevated p-6 sm:p-8">
+        <h1 className="craft-heading text-2xl">Artisan login</h1>
+        <p className="mt-2 text-sm leading-relaxed text-[var(--craft-muted)]">
+          Sign in to manage products and QR codes.
+        </p>
       </div>
 
-      <Suspense fallback={<p className="text-sm text-stone-500">Loading…</p>}>
-        <LoginForm showGoogle={showGoogle} />
-      </Suspense>
+      <div className="craft-card p-6 sm:p-8">
+        <Suspense fallback={<p className="text-sm text-[var(--craft-muted)]">Loading…</p>}>
+          <LoginForm showGoogle={showGoogle} />
+        </Suspense>
+      </div>
     </div>
   );
 }

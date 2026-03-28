@@ -73,14 +73,15 @@ export function ProductEditForm({ product, blobUploadEnabled }: ProductEditFormP
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
+      <div className="craft-card p-6 sm:p-8">
       <form action={updateAction} className="space-y-4">
         <input type="hidden" name="productId" value={product.id} />
         {updateState?.error ? (
-          <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-800">{updateState.error}</p>
+          <p className="craft-alert craft-alert-error">{updateState.error}</p>
         ) : null}
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-stone-700">
+          <label htmlFor="name" className="craft-label">
             Product name
           </label>
           <input
@@ -88,11 +89,11 @@ export function ProductEditForm({ product, blobUploadEnabled }: ProductEditFormP
             name="name"
             required
             defaultValue={product.name}
-            className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
+            className="craft-input"
           />
         </div>
         <div>
-          <label htmlFor="category" className="block text-sm font-medium text-stone-700">
+          <label htmlFor="category" className="craft-label">
             Category
           </label>
           <input
@@ -100,11 +101,11 @@ export function ProductEditForm({ product, blobUploadEnabled }: ProductEditFormP
             name="category"
             required
             defaultValue={product.category}
-            className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
+            className="craft-input"
           />
         </div>
         <div>
-          <label htmlFor="description" className="block text-sm font-medium text-stone-700">
+          <label htmlFor="description" className="craft-label">
             Description
           </label>
           <textarea
@@ -112,11 +113,11 @@ export function ProductEditForm({ product, blobUploadEnabled }: ProductEditFormP
             name="description"
             rows={3}
             defaultValue={product.description ?? ""}
-            className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
+            className="craft-input min-h-[5.5rem]"
           />
         </div>
         <div>
-          <label htmlFor="shopAddress" className="block text-sm font-medium text-stone-700">
+          <label htmlFor="shopAddress" className="craft-label">
             Physical shop address <span className="font-normal text-stone-500">(optional)</span>
           </label>
           <textarea
@@ -125,11 +126,11 @@ export function ProductEditForm({ product, blobUploadEnabled }: ProductEditFormP
             rows={2}
             defaultValue={product.shopAddress ?? ""}
             placeholder="Street, city, region…"
-            className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
+            className="craft-input min-h-[4.5rem]"
           />
         </div>
         <div>
-          <label htmlFor="marketplaceUrl" className="block text-sm font-medium text-stone-700">
+          <label htmlFor="marketplaceUrl" className="craft-label">
             Online marketplace link <span className="font-normal text-stone-500">(optional)</span>
           </label>
           <input
@@ -138,29 +139,27 @@ export function ProductEditForm({ product, blobUploadEnabled }: ProductEditFormP
             type="url"
             defaultValue={product.marketplaceUrl ?? ""}
             placeholder="https://…"
-            className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
+            className="craft-input"
           />
         </div>
-        <label className="flex items-center gap-2 text-sm text-stone-800">
+        <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-[var(--craft-border)] bg-[var(--craft-surface-muted)]/80 px-4 py-3 text-sm text-[var(--craft-ink)]">
           <input
             type="checkbox"
             name="published"
             defaultChecked={product.published}
-            className="rounded border-stone-300"
+            className="h-4 w-4 rounded border-[var(--craft-border-strong)] text-[var(--craft-accent)] focus:ring-[var(--craft-accent)]"
           />
           Published (visible on home &amp; verifiable)
         </label>
-        <button
-          type="submit"
-          className="rounded-md bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800"
-        >
+        <button type="submit" className="craft-btn-primary min-h-[44px] w-full text-sm sm:w-auto">
           Save changes
         </button>
       </form>
+      </div>
 
-      <section className="border-t border-stone-200 pt-8">
-        <h2 className="text-lg font-medium text-stone-900">Media gallery</h2>
-        <p className="mt-1 text-sm text-stone-600">
+      <section className="craft-card p-6 sm:p-8">
+        <h2 className="craft-heading text-lg">Media gallery</h2>
+        <p className="mt-2 text-sm leading-relaxed text-[var(--craft-muted)]">
           Reorder items for the public verification page. Images and short demo videos are shown to
           buyers.
         </p>
@@ -172,7 +171,7 @@ export function ProductEditForm({ product, blobUploadEnabled }: ProductEditFormP
             {product.media.map((m, i) => (
               <li
                 key={m.id}
-                className="flex flex-col gap-3 rounded-lg border border-stone-200 bg-white p-3 sm:flex-row sm:items-start"
+                className="craft-card flex flex-col gap-3 p-4 sm:flex-row sm:items-start"
               >
                 <div className="shrink-0 overflow-hidden rounded-md border border-stone-100 sm:w-40">
                   {m.type === "VIDEO" ? (
@@ -195,7 +194,7 @@ export function ProductEditForm({ product, blobUploadEnabled }: ProductEditFormP
                           await moveProductMedia(m.id, "up");
                         }}
                         disabled={i === 0}
-                        className="rounded border border-stone-300 px-2 py-1 text-xs text-stone-800 disabled:opacity-40"
+                        className="craft-btn-secondary px-2 py-1 text-xs disabled:opacity-40"
                       >
                         Up
                       </button>
@@ -207,7 +206,7 @@ export function ProductEditForm({ product, blobUploadEnabled }: ProductEditFormP
                           await moveProductMedia(m.id, "down");
                         }}
                         disabled={i === product.media.length - 1}
-                        className="rounded border border-stone-300 px-2 py-1 text-xs text-stone-800 disabled:opacity-40"
+                        className="craft-btn-secondary px-2 py-1 text-xs disabled:opacity-40"
                       >
                         Down
                       </button>
@@ -218,7 +217,7 @@ export function ProductEditForm({ product, blobUploadEnabled }: ProductEditFormP
                         formAction={async () => {
                           await removeProductMedia(m.id);
                         }}
-                        className="rounded border border-red-200 px-2 py-1 text-xs text-red-800 hover:bg-red-50"
+                        className="rounded-lg border border-red-200 bg-red-50/80 px-2 py-1 text-xs font-medium text-red-900 transition hover:bg-red-100 active:scale-[0.98]"
                       >
                         Remove
                       </button>
@@ -233,7 +232,7 @@ export function ProductEditForm({ product, blobUploadEnabled }: ProductEditFormP
         <div className="mt-6 space-y-4">
           {blobUploadEnabled ? (
             <div>
-              <label className="block text-sm font-medium text-stone-700">Upload file</label>
+              <label className="craft-label">Upload file</label>
               <p className="mt-0.5 text-xs text-stone-500">
                 Images up to 5 MB; video up to 50 MB (MP4, WebM, MOV).
               </p>
@@ -253,18 +252,16 @@ export function ProductEditForm({ product, blobUploadEnabled }: ProductEditFormP
               ) : null}
             </div>
           ) : (
-            <p className="rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-900">
+            <p className="craft-alert craft-alert-warn">
               File upload is disabled locally: set <code className="font-mono text-xs">BLOB_READ_WRITE_TOKEN</code>{" "}
               (Vercel Blob). You can still attach media via HTTPS URL below.
             </p>
           )}
 
-          <form action={urlAction} className="space-y-2 rounded-lg border border-dashed border-stone-300 p-4">
+          <form action={urlAction} className="craft-section space-y-3 border-2 border-dashed border-[var(--craft-border)] p-4">
             <input type="hidden" name="productId" value={product.id} />
-            <p className="text-sm font-medium text-stone-800">Add media by URL</p>
-            {urlState?.error ? (
-              <p className="text-sm text-red-700">{urlState.error}</p>
-            ) : null}
+            <p className="text-sm font-medium text-[var(--craft-ink)]">Add media by URL</p>
+            {urlState?.error ? <p className="craft-alert craft-alert-error text-sm">{urlState.error}</p> : null}
             <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
               <div className="min-w-0 flex-1">
                 <label htmlFor="media-url" className="sr-only">
@@ -276,7 +273,7 @@ export function ProductEditForm({ product, blobUploadEnabled }: ProductEditFormP
                   type="url"
                   required
                   placeholder="https://…"
-                  className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm text-stone-900"
+                  className="craft-input craft-input-sm w-full"
                 />
               </div>
               <div>
@@ -286,7 +283,7 @@ export function ProductEditForm({ product, blobUploadEnabled }: ProductEditFormP
                 <select
                   id="media-type"
                   name="mediaType"
-                  className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm text-stone-900 sm:w-auto"
+                  className="craft-input craft-input-sm w-full sm:w-auto"
                   defaultValue="IMAGE"
                 >
                   <option value="IMAGE">Image</option>
@@ -295,7 +292,7 @@ export function ProductEditForm({ product, blobUploadEnabled }: ProductEditFormP
               </div>
               <button
                 type="submit"
-                className="rounded-md bg-stone-200 px-3 py-2 text-sm font-medium text-stone-900 hover:bg-stone-300"
+                className="craft-btn-secondary px-4 py-2 text-sm font-medium"
               >
                 Add URL
               </button>
@@ -304,9 +301,9 @@ export function ProductEditForm({ product, blobUploadEnabled }: ProductEditFormP
         </div>
       </section>
 
-      <section className="border-t border-amber-100 pt-8">
-        <h2 className="text-lg font-medium text-stone-900">Archive</h2>
-        <p className="mt-1 text-sm text-stone-600">
+      <section className="craft-card border-amber-200/80 bg-amber-50/40 p-6 sm:p-8">
+        <h2 className="craft-heading text-lg">Archive</h2>
+        <p className="mt-2 text-sm leading-relaxed text-[var(--craft-muted)]">
           Archiving hides this product from your dashboard and from the public marketplace and
           verification page. Media and details remain stored; contact support if you need the listing
           restored.
@@ -315,7 +312,7 @@ export function ProductEditForm({ product, blobUploadEnabled }: ProductEditFormP
           type="button"
           onClick={confirmAndArchive}
           disabled={pendingArchive}
-          className="mt-3 rounded-md border border-amber-300 bg-amber-50 px-4 py-2 text-sm font-medium text-amber-950 hover:bg-amber-100 disabled:opacity-50"
+          className="craft-btn-secondary mt-4 border-amber-400/90 bg-amber-50 text-amber-950 hover:bg-amber-100 disabled:opacity-50"
         >
           {pendingArchive ? "Archiving…" : "Archive"}
         </button>

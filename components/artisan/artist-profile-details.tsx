@@ -53,11 +53,11 @@ export function ArtistProfileDetails(props: Props) {
   const badge = statusLabel(props.verificationStatus);
 
   return (
-    <details className="group rounded-xl border border-stone-200 bg-white shadow-sm">
-      <summary className="cursor-pointer list-none px-4 py-3 text-sm font-medium text-stone-900 marker:content-none [&::-webkit-details-marker]:hidden">
+    <details className="group craft-card overflow-hidden">
+      <summary className="cursor-pointer list-none px-5 py-4 text-sm font-medium text-[var(--craft-ink)] marker:content-none [&::-webkit-details-marker]:hidden">
         <span className="flex flex-wrap items-center justify-between gap-2">
           <span className="flex items-center gap-2">
-            <span aria-hidden className="text-stone-400 transition group-open:rotate-90">
+            <span aria-hidden className="text-[var(--craft-accent)] transition group-open:rotate-90">
               ▸
             </span>
             Profile details
@@ -70,8 +70,8 @@ export function ArtistProfileDetails(props: Props) {
         </span>
       </summary>
 
-      <div className="space-y-4 border-t border-stone-100 px-4 pb-4 pt-3">
-        <p className="text-xs text-stone-500">
+      <div className="space-y-4 border-t border-[var(--craft-border)] bg-[var(--craft-surface-muted)]/50 px-5 pb-5 pt-4">
+        <p className="text-xs text-[var(--craft-muted)]">
           Information you registered (and optional registry fields). Shown whether your account is
           pending or verified.
         </p>
@@ -89,11 +89,8 @@ export function ArtistProfileDetails(props: Props) {
           ) : null}
         </dl>
 
-        <p className="border-t border-stone-100 pt-3">
-          <Link
-            href="/artisan/profile"
-            className="text-sm font-medium text-stone-900 underline decoration-stone-300 underline-offset-2 hover:text-stone-700"
-          >
+        <p className="craft-divider pt-4">
+          <Link href="/artisan/profile" className="craft-link text-sm">
             Edit registry profile
           </Link>
         </p>

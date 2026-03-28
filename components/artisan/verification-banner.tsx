@@ -15,11 +15,11 @@ export function VerificationBanner({ status }: Props) {
 
   if (status === "PENDING") {
     return (
-      <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+      <div className="craft-alert craft-alert-warn border-amber-300/80">
         <strong>Verification pending.</strong> The last 4 digits of your mobile did not match the
         registry CSV, or your profile has no mobile yet (e.g. Google sign-in). Adding products and
         media is disabled until verification succeeds.{" "}
-        <Link href="/artisan/profile" className="font-medium underline">
+        <Link href="/artisan/profile" className="craft-link font-semibold">
           Edit registry profile
         </Link>{" "}
         to add or update your mobile and other details.
@@ -29,7 +29,7 @@ export function VerificationBanner({ status }: Props) {
 
   if (status === "REJECTED") {
     return (
-      <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-950">
+      <div className="craft-alert craft-alert-error">
         <strong>Verification rejected.</strong> Contact support or update your details when the
         government API integration is available.
       </div>

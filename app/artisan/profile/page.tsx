@@ -24,19 +24,20 @@ export default async function ArtisanProfilePage() {
   const hasMobileOnFile = Boolean(profile.govMobile);
 
   return (
-    <div className="mx-auto max-w-lg space-y-6">
-      <div>
-        <Link href="/artisan" className="text-sm text-stone-600 hover:text-stone-900">
+    <div className="mx-auto max-w-lg space-y-8">
+      <div className="craft-card-elevated p-6 sm:p-8">
+        <Link href="/artisan" className="craft-nav-link -ml-1 inline-flex text-sm">
           ← Dashboard
         </Link>
-        <h1 className="mt-2 text-2xl font-semibold text-stone-900">Registry profile</h1>
-        <p className="mt-1 text-sm text-stone-600">
+        <h1 className="craft-heading mt-4 text-2xl">Registry profile</h1>
+        <p className="mt-3 text-sm leading-relaxed text-[var(--craft-muted)]">
           {needsMobileForGoogle
             ? "You signed in with Google. Add your mobile number so we can match the handicrafts registry (last 4 digits). Optional fields below are stored on your profile."
             : "Update the details used for registry verification. Leave mobile blank to keep your current number."}
         </p>
       </div>
 
+      <div className="craft-card p-6 sm:p-8">
       <ArtisanProfileEditForm
         defaultDisplayName={profile.displayName ?? user?.name ?? ""}
         defaultGovState={profile.govState ?? ""}
@@ -47,6 +48,7 @@ export default async function ArtisanProfilePage() {
         needsMobileForGoogle={needsMobileForGoogle}
         hasMobileOnFile={hasMobileOnFile}
       />
+      </div>
     </div>
   );
 }

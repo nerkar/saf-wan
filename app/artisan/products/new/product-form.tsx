@@ -159,45 +159,43 @@ export function ProductForm({ blobUploadEnabled }: ProductFormProps) {
     <form action={formAction} className="space-y-6">
       <input type="hidden" name="mediaItems" value={JSON.stringify(pending)} />
 
-      {state?.error ? (
-        <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-800">{state.error}</p>
-      ) : null}
+      {state?.error ? <p className="craft-alert craft-alert-error">{state.error}</p> : null}
 
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-stone-700">
+        <label htmlFor="name" className="craft-label">
           Product name
         </label>
         <input
           id="name"
           name="name"
           required
-          className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
+          className="craft-input"
         />
       </div>
       <div>
-        <label htmlFor="category" className="block text-sm font-medium text-stone-700">
+        <label htmlFor="category" className="craft-label">
           Category
         </label>
         <input
           id="category"
           name="category"
           required
-          className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
+          className="craft-input"
         />
       </div>
       <div>
-        <label htmlFor="description" className="block text-sm font-medium text-stone-700">
+        <label htmlFor="description" className="craft-label">
           Description
         </label>
         <textarea
           id="description"
           name="description"
           rows={3}
-          className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
+          className="craft-input min-h-[5.5rem]"
         />
       </div>
       <div>
-        <label htmlFor="shopAddress" className="block text-sm font-medium text-stone-700">
+        <label htmlFor="shopAddress" className="craft-label">
           Physical shop address <span className="font-normal text-stone-500">(optional)</span>
         </label>
         <textarea
@@ -205,11 +203,11 @@ export function ProductForm({ blobUploadEnabled }: ProductFormProps) {
           name="shopAddress"
           rows={2}
           placeholder="Street, city, region…"
-          className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
+          className="craft-input min-h-[4.5rem]"
         />
       </div>
       <div>
-        <label htmlFor="marketplaceUrl" className="block text-sm font-medium text-stone-700">
+        <label htmlFor="marketplaceUrl" className="craft-label">
           Online marketplace link <span className="font-normal text-stone-500">(optional)</span>
         </label>
         <input
@@ -217,13 +215,13 @@ export function ProductForm({ blobUploadEnabled }: ProductFormProps) {
           name="marketplaceUrl"
           type="url"
           placeholder="https://…"
-          className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
+          className="craft-input"
         />
       </div>
 
-      <fieldset className="space-y-3 rounded-lg border border-stone-200 bg-stone-50/80 p-4">
-        <legend className="px-1 text-sm font-medium text-stone-900">Media (optional)</legend>
-        <p className="text-sm text-stone-600">
+      <fieldset className="craft-section space-y-4 p-5 sm:p-6">
+        <legend className="px-1 text-sm font-semibold text-[var(--craft-ink)]">Media (optional)</legend>
+        <p className="text-sm leading-relaxed text-[var(--craft-muted)]">
           Add images or videos by link, from your device, or with your camera. Order matches display on
           the verification page; you can reorder after saving from the edit screen.
         </p>
@@ -233,7 +231,7 @@ export function ProductForm({ blobUploadEnabled }: ProductFormProps) {
             {pending.map((m, i) => (
               <li
                 key={m.clientId}
-                className="flex items-start gap-3 rounded-md border border-stone-200 bg-white p-2 text-sm"
+                className="flex items-start gap-3 rounded-lg border border-[var(--craft-border)] bg-[var(--craft-surface)] p-3 text-sm shadow-sm"
               >
                 <div className="shrink-0 overflow-hidden rounded border border-stone-100">
                   {m.type === "VIDEO" ? (
@@ -252,7 +250,7 @@ export function ProductForm({ blobUploadEnabled }: ProductFormProps) {
                 <button
                   type="button"
                   onClick={() => removePending(m.clientId)}
-                  className="shrink-0 rounded border border-stone-300 px-2 py-1 text-xs text-stone-700 hover:bg-stone-100"
+                  className="craft-btn-secondary shrink-0 px-2 py-1 text-xs"
                 >
                   Remove
                 </button>
@@ -276,13 +274,13 @@ export function ProductForm({ blobUploadEnabled }: ProductFormProps) {
                 value={urlInput}
                 onChange={(e) => setUrlInput(e.target.value)}
                 placeholder="https://…"
-                className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm text-stone-900"
+                className="craft-input craft-input-sm w-full"
               />
             </div>
             <select
               value={urlType}
               onChange={(e) => setUrlType(e.target.value === "VIDEO" ? "VIDEO" : "IMAGE")}
-              className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm text-stone-900 sm:w-auto"
+              className="craft-input craft-input-sm w-full sm:w-auto"
             >
               <option value="IMAGE">Image</option>
               <option value="VIDEO">Video</option>
@@ -290,7 +288,7 @@ export function ProductForm({ blobUploadEnabled }: ProductFormProps) {
             <button
               type="button"
               onClick={addMediaByUrl}
-              className="rounded-md bg-stone-200 px-3 py-2 text-sm font-medium text-stone-900 hover:bg-stone-300"
+              className="craft-btn-secondary px-4 py-2 text-sm font-medium"
             >
               Add URL
             </button>
@@ -324,15 +322,15 @@ export function ProductForm({ blobUploadEnabled }: ProductFormProps) {
                   filePickRef.current?.click();
                 }
               }}
-              className={`flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed px-4 py-8 text-center transition-colors ${
+              className={`flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed px-4 py-8 text-center transition-all duration-200 ${
                 dragActive
-                  ? "border-amber-500 bg-amber-50"
-                  : "border-stone-300 bg-white hover:border-stone-400"
+                  ? "border-[var(--craft-accent)] bg-[var(--craft-accent-soft)]"
+                  : "border-[var(--craft-border-strong)] bg-[var(--craft-surface)] hover:border-[var(--craft-accent)]"
               }`}
               onClick={() => filePickRef.current?.click()}
             >
-              <p className="text-sm font-medium text-stone-800">Drag and drop files here</p>
-              <p className="mt-1 text-xs text-stone-500">or click to choose — images up to 5 MB, video up to 50 MB</p>
+              <p className="text-sm font-medium text-[var(--craft-ink)]">Drag and drop files here</p>
+              <p className="mt-1 text-xs text-[var(--craft-muted)]">or click to choose — images up to 5 MB, video up to 50 MB</p>
             </div>
 
             <input
@@ -352,7 +350,7 @@ export function ProductForm({ blobUploadEnabled }: ProductFormProps) {
                 type="button"
                 disabled={uploading}
                 onClick={() => filePickRef.current?.click()}
-                className="rounded-md border border-stone-300 bg-white px-3 py-2 text-sm text-stone-800 hover:bg-stone-50 disabled:opacity-50"
+                className="craft-btn-secondary px-3 py-2 text-sm disabled:opacity-50"
               >
                 Choose files
               </button>
@@ -360,7 +358,7 @@ export function ProductForm({ blobUploadEnabled }: ProductFormProps) {
                 type="button"
                 disabled={uploading}
                 onClick={() => cameraPhotoRef.current?.click()}
-                className="rounded-md border border-stone-300 bg-white px-3 py-2 text-sm text-stone-800 hover:bg-stone-50 disabled:opacity-50"
+                className="craft-btn-secondary px-3 py-2 text-sm disabled:opacity-50"
               >
                 Take photo
               </button>
@@ -368,7 +366,7 @@ export function ProductForm({ blobUploadEnabled }: ProductFormProps) {
                 type="button"
                 disabled={uploading}
                 onClick={() => cameraVideoRef.current?.click()}
-                className="rounded-md border border-stone-300 bg-white px-3 py-2 text-sm text-stone-800 hover:bg-stone-50 disabled:opacity-50"
+                className="craft-btn-secondary px-3 py-2 text-sm disabled:opacity-50"
               >
                 Record video
               </button>
@@ -398,7 +396,7 @@ export function ProductForm({ blobUploadEnabled }: ProductFormProps) {
             />
           </>
         ) : (
-          <p className="rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-900">
+          <p className="craft-alert craft-alert-warn">
             File and camera uploads need{" "}
             <code className="font-mono text-xs">BLOB_READ_WRITE_TOKEN</code> (Vercel Blob). You can
             still add media using URLs above.
@@ -409,14 +407,15 @@ export function ProductForm({ blobUploadEnabled }: ProductFormProps) {
         {uploadError ? <p className="text-xs text-red-700">{uploadError}</p> : null}
       </fieldset>
 
-      <label className="flex items-center gap-2 text-sm text-stone-800">
-        <input type="checkbox" name="published" className="rounded border-stone-300" />
+      <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-[var(--craft-border)] bg-[var(--craft-surface-muted)]/80 px-4 py-3 text-sm text-[var(--craft-ink)] transition-colors hover:bg-[var(--craft-surface-muted)]">
+        <input
+          type="checkbox"
+          name="published"
+          className="h-4 w-4 rounded border-[var(--craft-border-strong)] text-[var(--craft-accent)] focus:ring-[var(--craft-accent)]"
+        />
         Published (visible on home &amp; verifiable)
       </label>
-      <button
-        type="submit"
-        className="w-full rounded-md bg-stone-900 px-4 py-2 text-white hover:bg-stone-800"
-      >
+      <button type="submit" className="craft-btn-primary w-full min-h-[48px] text-base">
         Save product
       </button>
     </form>

@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { SiteHeader } from "@/components/site-header";
+
+const craftDisplay = Fraunces({
+  variable: "--font-craft-display",
+  subsets: ["latin"],
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,11 +32,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-screen antialiased`}
+        className={`craft-body ${craftDisplay.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
           <SiteHeader />
-          <main className="mx-auto max-w-5xl px-4 py-8">{children}</main>
+          <main className="craft-main mx-auto max-w-5xl px-4 py-10">{children}</main>
         </Providers>
       </body>
     </html>

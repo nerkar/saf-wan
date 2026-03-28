@@ -28,35 +28,40 @@ export default async function HomePage() {
   );
 
   return (
-    <div className="space-y-10">
-      <section className="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
-        <h1 className="text-2xl font-semibold text-stone-900">Saf-Wan</h1>
-        <p className="mt-2 max-w-2xl text-stone-600">
-          Browse published listings. Scan a product QR code or open a verification link to see
-          artisan details and proof of authenticity.
-        </p>
+    <div className="space-y-12">
+      <section className="craft-card-elevated overflow-hidden">
+        <div className="border-l-4 border-[var(--craft-accent)] bg-gradient-to-br from-[var(--craft-surface)] to-[var(--craft-surface-muted)] px-6 py-7 sm:px-8 sm:py-8">
+          <h1 className="craft-heading text-3xl sm:text-4xl">Saf-Wan</h1>
+          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[var(--craft-muted)] sm:text-base">
+            Browse published listings. Scan a product QR code or open a verification link to see
+            artisan details and proof of authenticity.
+          </p>
+        </div>
       </section>
 
       {Object.keys(byCategory).length === 0 ? (
-        <p className="text-sm text-stone-600">
+        <section className="craft-card p-6 text-sm text-[var(--craft-muted)]">
           No published products yet. Sign in as an artisan and publish a product to see it here.
-        </p>
+        </section>
       ) : (
         Object.entries(byCategory).map(([category, items]) => (
-          <section key={category}>
-            <h2 className="mb-3 text-lg font-medium text-stone-900">{category}</h2>
-            <ul className="grid gap-3 sm:grid-cols-2">
+          <section key={category} className="space-y-4">
+            <div className="flex items-center gap-3 border-b border-[var(--craft-border)] pb-2">
+              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--craft-accent)]" aria-hidden />
+              <h2 className="craft-heading text-xl">{category}</h2>
+            </div>
+            <ul className="grid gap-4 sm:grid-cols-2">
               {items.map((p) => {
                 const thumbUrl = p.media[0]?.url;
                 return (
                   <li key={p.id}>
                     <Link
                       href={`/verify/${p.id}`}
-                      className="flex gap-3 rounded-lg border border-stone-200 bg-white p-4 shadow-sm transition hover:border-stone-300"
+                      className="craft-list-row flex gap-3 p-4"
                     >
                       <div className="min-w-0 flex-1">
-                        <span className="font-medium text-stone-900">{p.name}</span>
-                        <span className="mt-1 block text-sm text-stone-600 line-clamp-2">
+                        <span className="font-semibold text-[var(--craft-ink)]">{p.name}</span>
+                        <span className="mt-1 block text-sm leading-snug text-[var(--craft-muted)] line-clamp-2">
                           {p.description || "No description."}
                         </span>
                         <span className="mt-2 block text-xs text-stone-500">
@@ -70,7 +75,7 @@ export default async function HomePage() {
                         />
                       </div>
                       {thumbUrl ? (
-                        <div className="relative h-20 w-20 shrink-0 self-start overflow-hidden rounded-md bg-stone-100 sm:h-24 sm:w-24">
+                        <div className="relative h-20 w-20 shrink-0 self-start overflow-hidden rounded-lg border border-[var(--craft-border)] bg-[var(--craft-surface-muted)] sm:h-24 sm:w-24">
                           {/* eslint-disable-next-line @next/next/no-img-element -- product media URLs from storage */}
                           <img
                             src={thumbUrl}

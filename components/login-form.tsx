@@ -43,19 +43,17 @@ export function LoginForm({ showGoogle }: Props) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {registered ? (
-        <p className="rounded-md bg-emerald-50 px-3 py-2 text-sm text-emerald-900">
+        <p className="craft-alert craft-alert-success">
           Account created. Sign in below.
         </p>
       ) : null}
-      {error ? (
-        <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-800">{error}</p>
-      ) : null}
+      {error ? <p className="craft-alert craft-alert-error">{error}</p> : null}
 
       <form onSubmit={onSubmit} className="space-y-4">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-stone-700">
+          <label htmlFor="email" className="craft-label">
             Email
           </label>
           <input
@@ -64,11 +62,11 @@ export function LoginForm({ showGoogle }: Props) {
             type="email"
             required
             autoComplete="email"
-            className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
+            className="craft-input"
           />
         </div>
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-stone-700">
+          <label htmlFor="password" className="craft-label">
             Password
           </label>
           <input
@@ -77,13 +75,13 @@ export function LoginForm({ showGoogle }: Props) {
             type="password"
             required
             autoComplete="current-password"
-            className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
+            className="craft-input"
           />
         </div>
         <button
           type="submit"
           disabled={pending}
-          className="w-full rounded-md bg-stone-900 px-4 py-2 text-white hover:bg-stone-800 disabled:opacity-60"
+          className="craft-btn-primary w-full min-h-[44px] disabled:opacity-60"
         >
           {pending ? "Signing in…" : "Sign in"}
         </button>
@@ -92,12 +90,12 @@ export function LoginForm({ showGoogle }: Props) {
       {showGoogle ? (
         <>
           <div className="relative py-2 text-center text-xs text-stone-500">
-            <span className="bg-[var(--background)] relative z-10 px-2">or</span>
-            <span className="absolute left-0 right-0 top-1/2 z-0 h-px bg-stone-200" aria-hidden />
+            <span className="relative z-10 bg-[var(--craft-bg)] px-2">or</span>
+            <span className="absolute left-0 right-0 top-1/2 z-0 h-px bg-[var(--craft-border)]" aria-hidden />
           </div>
           <button
             type="button"
-            className="w-full rounded-md border border-stone-300 bg-white px-4 py-2 text-stone-900 hover:bg-stone-50"
+            className="craft-btn-secondary w-full min-h-[44px] font-medium"
             onClick={() => signIn("google", { callbackUrl: "/artisan" })}
           >
             Continue with Google
@@ -105,9 +103,9 @@ export function LoginForm({ showGoogle }: Props) {
         </>
       ) : null}
 
-      <p className="text-center text-sm text-stone-600">
+      <p className="text-center text-sm text-[var(--craft-muted)]">
         No account?{" "}
-        <Link href="/register" className="font-medium text-stone-900 underline">
+        <Link href="/register" className="craft-link">
           Register
         </Link>
       </p>
