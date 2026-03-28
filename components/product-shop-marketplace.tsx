@@ -4,6 +4,17 @@ type Props = {
   className?: string;
 };
 
+const MARKETPLACE_LINK_DISPLAY_MAX = 50;
+const MARKETPLACE_ELLIPSIS = "...";
+
+function truncateMarketplaceLabel(url: string): string {
+  if (url.length <= MARKETPLACE_LINK_DISPLAY_MAX) {
+    return url;
+  }
+  const keep = MARKETPLACE_LINK_DISPLAY_MAX - MARKETPLACE_ELLIPSIS.length;
+  return `${url.slice(0, keep)}${MARKETPLACE_ELLIPSIS}`;
+}
+
 /**
  * Shared block for physical shop + online marketplace (home, dashboard, verify).
  */
@@ -31,11 +42,12 @@ export function ProductShopAndMarketplace({
           <span className="text-stone-500"> · </span>
           <a
             href={marketplaceUrl}
+            title={marketplaceUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="break-all text-stone-800 underline decoration-stone-300 underline-offset-2 hover:text-stone-900"
+            className="text-stone-800 underline decoration-stone-300 underline-offset-2 hover:text-stone-900"
           >
-            {marketplaceUrl}
+            {truncateMarketplaceLabel(marketplaceUrl)}
           </a>
         </p>
       ) : null}

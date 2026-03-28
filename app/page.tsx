@@ -30,7 +30,7 @@ export default async function HomePage() {
   return (
     <div className="space-y-10">
       <section className="rounded-xl border border-stone-200 bg-white p-6 shadow-sm">
-        <h1 className="text-2xl font-semibold text-stone-900">Handicraft verification</h1>
+        <h1 className="text-2xl font-semibold text-stone-900">Saf-Wan</h1>
         <p className="mt-2 max-w-2xl text-stone-600">
           Browse published listings. Scan a product QR code or open a verification link to see
           artisan details and proof of authenticity.

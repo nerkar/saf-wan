@@ -46,7 +46,7 @@ export default async function ArtisanDashboardPage() {
       </div>
 
       <section>
-        <h2 className="mb-3 text-lg font-medium text-stone-900">Your products</h2>
+        <h2 className="mb-3 text-lg font-medium text-stone-900">My products</h2>
         {products.length === 0 ? (
           <p className="text-sm text-stone-600">No products yet. Create one to get a QR code.</p>
         ) : (
