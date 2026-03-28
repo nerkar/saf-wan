@@ -1,3 +1,4 @@
+/** @vercel-platform qr — encodes NEXT_PUBLIC_APP_URL/verify/… via getProductVerificationUrl */
 import QRCode from "qrcode";
 import { NextResponse } from "next/server";
 import { getProductVerificationUrl } from "@/lib/verification-url";

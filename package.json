@@ -2,9 +2,11 @@
   "name": "saf-wan",
   "version": "0.1.0",
   "private": true,
+  "description": "Vercel: see vercel.json, npm run vercel-build, docs/vercel-platform-touchpoints.md (@vercel-platform in source)",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "vercel-build": "prisma migrate deploy && next build",
     "start": "next start",
     "lint": "eslint",
     "postinstall": "prisma generate",
@@ -38,5 +40,8 @@
     "prisma": "^6.5.0",
     "tailwindcss": "^4.0.14",
     "typescript": "^5.8.2"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

@@ -1,3 +1,4 @@
+/** @vercel-platform api-blob — multipart upload via lib/storage (Vercel Blob when token set) */
 import { auth } from "@/auth";
 import { getProductOpsBlockReason } from "@/lib/artisan-product-guard";
 import { prisma } from "@/lib/prisma";

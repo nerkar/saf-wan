@@ -1,6 +1,8 @@
 /**
  * Public verification URLs for QR codes and deep links.
  *
+ * @vercel-platform public-url — env NEXT_PUBLIC_APP_URL (must match deployment origin)
+ *
  * Uses NEXT_PUBLIC_APP_URL (no trailing slash). Server and client code that
  * builds user-facing verify links should import from here so QR, emails, and
  * UI stay consistent across environments (local, preview, production).
