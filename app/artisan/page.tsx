@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { VerificationBanner } from "@/components/artisan/verification-banner";
+import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { requireUserId } from "@/lib/session";
+import { getProductVerificationUrl } from "@/lib/verification-url";
 
 export default async function ArtisanDashboardPage() {
-  const userId = await requireUserId();
+  const session = await auth();
+  const userId = session!.user!.id;
 
   const profile = await prisma.artisanProfile.findUnique({
     where: { userId },
@@ -16,22 +17,13 @@ export default async function ArtisanDashboardPage() {
     include: { media: { take: 1 } },
   });
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
-
   return (
     <div className="space-y-8">
-      <VerificationBanner status={profile?.verificationStatus} />
-
       <div>
         <h1 className="text-2xl font-semibold text-stone-900">Artisan dashboard</h1>
         <p className="mt-1 text-sm text-stone-600">
           Verification:{" "}
           <span className="font-medium">{profile?.verificationStatus ?? "—"}</span>
-          {profile?.externalPortalId ? (
-            <span className="ml-2 text-stone-500">
-              (portal ref: {profile.externalPortalId})
-            </span>
-          ) : null}
         </p>
       </div>
 
@@ -51,7 +43,7 @@ export default async function ArtisanDashboardPage() {
         ) : (
           <ul className="space-y-3">
             {products.map((p) => {
-              const verifyUrl = `${baseUrl.replace(/\/$/, "")}/verify/${p.id}`;
+              const verifyUrl = getProductVerificationUrl(p.id);
               return (
                 <li
                   key={p.id}
@@ -65,21 +57,24 @@ export default async function ArtisanDashboardPage() {
                       {p.category} · {p.published ? "Published" : "Draft"}
                     </p>
                   </div>
-                  <div className="flex flex-wrap gap-2">
-                    <Link
-                      href={`/artisan/products/${p.id}/edit`}
-                      className="rounded-md border border-stone-300 px-3 py-1.5 text-sm text-stone-800 hover:bg-stone-50"
-                    >
-                      Edit
-                    </Link>
-                    <a
-                      href={`/api/products/${p.id}/qr`}
-                      download={`qr-${p.id}.png`}
-                      className="rounded-md border border-stone-300 px-3 py-1.5 text-sm text-stone-800 hover:bg-stone-50"
-                    >
-                      Download QR
-                    </a>
-                    <span className="text-xs text-stone-500 self-center truncate max-w-[14rem] sm:max-w-xs">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+                    <div className="flex flex-wrap gap-2">
+                      <a
+                        href={`/api/products/${p.id}/qr`}
+                        download={`qr-${p.id}.png`}
+                        className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md border border-stone-300 px-3 py-2 text-sm text-stone-800 hover:bg-stone-50"
+                      >
+                        QR (PNG)
+                      </a>
+                      <a
+                        href={`/api/products/${p.id}/qr?format=svg`}
+                        download={`qr-${p.id}.svg`}
+                        className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md border border-stone-300 px-3 py-2 text-sm text-stone-800 hover:bg-stone-50"
+                      >
+                        QR (SVG)
+                      </a>
+                    </div>
+                    <span className="text-xs text-stone-500 break-all sm:max-w-xs sm:truncate">
                       {verifyUrl}
                     </span>
                   </div>

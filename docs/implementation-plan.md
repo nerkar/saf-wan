@@ -54,6 +54,8 @@ This document is the **in-repo** copy of the team plan. Use it for day-to-day wo
 - QR encodes `NEXT_PUBLIC_APP_URL/verify/[productId]`; PNG/SVG download from artisan product UI.
 - Nav link to artisan login.
 
+**Integration reference:** [docs/public-site-and-qr.md](public-site-and-qr.md) — routes, env, QR API, file map, smoke checklist.
+
 ## Developer 4 — Platform, stub, storage, Vercel
 
 - **Integration handoff:** [integration-platform.md](integration-platform.md) — government module, storage API, `.env`, Prisma coordination, Vercel, smoke checklist.
