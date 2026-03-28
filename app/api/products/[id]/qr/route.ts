@@ -1,21 +1,43 @@
 import QRCode from "qrcode";
 import { NextResponse } from "next/server";
+import { getProductVerificationUrl } from "@/lib/verification-url";
 
 type Params = { params: Promise<{ id: string }> };
 
-export async function GET(_request: Request, { params }: Params) {
+/**
+ * QR image for a product. Encodes getProductVerificationUrl(id).
+ *
+ * - Default: PNG (`Content-Type: image/png`)
+ * - `?format=svg`: SVG (`Content-Type: image/svg+xml`)
+ */
+export async function GET(request: Request, { params }: Params) {
   const { id } = await params;
-  const base = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
-  const url = `${base.replace(/\/$/, "")}/verify/${id}`;
+  const targetUrl = getProductVerificationUrl(id);
+  const format = new URL(request.url).searchParams.get("format");
 
-  const png = await QRCode.toBuffer(url, {
+  if (format === "svg") {
+    const svg = await QRCode.toString(targetUrl, {
+      type: "svg",
+      width: 320,
+      margin: 2,
+      errorCorrectionLevel: "M",
+    });
+    return new NextResponse(svg, {
+      headers: {
+        "Content-Type": "image/svg+xml; charset=utf-8",
+        "Cache-Control": "public, max-age=3600",
+      },
+    });
+  }
+
+  const png = await QRCode.toBuffer(targetUrl, {
     type: "png",
     width: 320,
     margin: 2,
     errorCorrectionLevel: "M",
   });
 
-  return new NextResponse(png, {
+  return new NextResponse(new Uint8Array(png), {
     headers: {
       "Content-Type": "image/png",
       "Cache-Control": "public, max-age=3600",

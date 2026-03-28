@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 
-/** Public-safe payload for `/verify/[productId]` — no secrets. */
+/** Public-safe payload for `/verify/[productId]` — no secrets. @see docs/public-site-and-qr.md */
 export type ProductVerificationPayload = {
   product: {
     id: string;
