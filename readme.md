@@ -2,6 +2,8 @@
 
 Prototype for authenticating handicraft products via QR codes linked to artisan records, with planned integration to the Indian Handicrafts Portal API (stubbed until integration).
 
+**Repository:** [github.com/nerkar/saf-wan](https://github.com/nerkar/saf-wan)
+
 ## Implementation plan (read this first)
 
 The team works from a **single implementation plan** so parallel work stays integrable.
@@ -13,7 +15,7 @@ The team works from a **single implementation plan** so parallel work stays inte
 
 ### How to use the plan
 
-1. **New contributor:** Read [docs/implementation-plan.md](docs/implementation-plan.md), then [.cursorrules](.cursorrules), then set up env from `.env.example` (when present).
+1. **New contributor:** Follow [docs/DEV_ENVIRONMENT.md](docs/DEV_ENVIRONMENT.md), then read [docs/implementation-plan.md](docs/implementation-plan.md) and [.cursorrules](.cursorrules).
 2. **Before coding a feature:** Confirm your workstream (Dev 1–4) and dependencies in the plan; do not break **integration contracts** (product IDs, `/verify/[productId]`, `getProductForVerification`, `lib/government/` only for gov verification).
 3. **Database changes:** Coordinate with the agreed **Prisma migration owner** (see plan — Developer 4) before merging migrations.
 4. **Merging:** Follow the plan’s **merge order** (platform stub → auth → products → public/QR → integration branch).
@@ -50,12 +52,17 @@ saf-wan/
 
 Folders under `app/`, `lib/`, and `prisma/` are created as the app is scaffolded; add Next.js entry files (`app/layout.tsx`, etc.) when initializing the project.
 
-## Getting started
+## Getting started (local development)
 
-1. Clone the repository.
-2. Copy [.env.example](.env.example) to `.env` and fill values (after Phase 0 scaffold).
-3. Install dependencies and run migrations per README steps added with the Next.js scaffold.
-4. `npm run dev` (or `pnpm dev`) — once the app exists.
+**Copy-paste setup (Windows):** follow **[docs/DEV_ENVIRONMENT.md](docs/DEV_ENVIRONMENT.md)** — **Git Bash** commands, `.env`, database, Auth secrets, Google OAuth, npm, Prisma, and Git.
+
+Quick summary:
+
+1. Install **Git for Windows** (includes **Git Bash**) and **Node.js 20 LTS** (see `.nvmrc`; optional **fnm** via curl in Bash is in [docs/DEV_ENVIRONMENT.md](docs/DEV_ENVIRONMENT.md), or use the [Node.js installer](https://nodejs.org)).
+2. Clone: `git clone https://github.com/nerkar/saf-wan.git` — then work in **Git Bash** (or another Bash terminal) from the project folder.
+3. `cp .env.example .env` and fill values per [docs/DEV_ENVIRONMENT.md](docs/DEV_ENVIRONMENT.md).
+4. After Phase 0 adds `package.json` and Prisma: `npm install`, `npx prisma generate`, `npx prisma migrate dev` (or `db push` as documented).
+5. `npm run dev` and open [http://localhost:3000](http://localhost:3000).
 
 ## License
 

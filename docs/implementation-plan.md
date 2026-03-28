@@ -4,6 +4,7 @@ This document is the **in-repo** copy of the team plan. Use it for day-to-day wo
 
 ## How to use this plan
 
+0. **Machine setup (Windows):** [DEV_ENVIRONMENT.md](DEV_ENVIRONMENT.md) — Git Bash, clone, Node, `.env`, database, run the app.
 1. **Phase 0** is done once: Next.js, Prisma, Postgres, `.env.example`, branch naming, schema owner (Developer 4).
 2. After Phase 0, four workstreams run in parallel where possible; respect **merge order** and **integration contracts** below.
 3. Before merging features that touch the database, sync with the **Prisma migration owner** to avoid migration conflicts.
