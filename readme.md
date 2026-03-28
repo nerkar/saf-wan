@@ -1,5 +1,8 @@
 # Handicraft verification portal
 
+# working URL :
+https://safwan-inky.vercel.app/
+
 Prototype for authenticating handicraft products via QR codes linked to artisan records, with planned integration to the Indian Handicrafts Portal API (stubbed until integration).
 
 **Repository:** [github.com/nerkar/saf-wan](https://github.com/nerkar/saf-wan)
