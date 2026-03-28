@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ProductShopAndMarketplace } from "@/components/product-shop-marketplace";
 import { prisma } from "@/lib/prisma";
 
 export default async function HomePage() {
@@ -7,6 +8,11 @@ export default async function HomePage() {
     orderBy: { createdAt: "desc" },
     include: {
       artisan: { include: { artisanProfile: true } },
+      media: {
+        where: { type: "IMAGE" },
+        orderBy: { sortOrder: "asc" },
+        take: 1,
+      },
     },
     take: 24,
   });
@@ -29,12 +35,6 @@ export default async function HomePage() {
           Browse published listings. Scan a product QR code or open a verification link to see
           artisan details and proof of authenticity.
         </p>
-        <p className="mt-4 text-sm text-stone-500">
-          <Link href="/login" className="font-medium text-stone-800 underline">
-            Artisan login
-          </Link>{" "}
-          to register products and download QR codes.
-        </p>
       </section>
 
       {Object.keys(byCategory).length === 0 ? (
@@ -46,23 +46,43 @@ export default async function HomePage() {
           <section key={category}>
             <h2 className="mb-3 text-lg font-medium text-stone-900">{category}</h2>
             <ul className="grid gap-3 sm:grid-cols-2">
-              {items.map((p) => (
-                <li key={p.id}>
-                  <Link
-                    href={`/verify/${p.id}`}
-                    className="block rounded-lg border border-stone-200 bg-white p-4 shadow-sm transition hover:border-stone-300"
-                  >
-                    <span className="font-medium text-stone-900">{p.name}</span>
-                    <span className="mt-1 block text-sm text-stone-600 line-clamp-2">
-                      {p.description || "No description."}
-                    </span>
-                    <span className="mt-2 block text-xs text-stone-500">
-                      Artisan:{" "}
-                      {p.artisan.artisanProfile?.displayName ?? p.artisan.name ?? p.artisan.id}
-                    </span>
-                  </Link>
-                </li>
-              ))}
+              {items.map((p) => {
+                const thumbUrl = p.media[0]?.url;
+                return (
+                  <li key={p.id}>
+                    <Link
+                      href={`/verify/${p.id}`}
+                      className="flex gap-3 rounded-lg border border-stone-200 bg-white p-4 shadow-sm transition hover:border-stone-300"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <span className="font-medium text-stone-900">{p.name}</span>
+                        <span className="mt-1 block text-sm text-stone-600 line-clamp-2">
+                          {p.description || "No description."}
+                        </span>
+                        <span className="mt-2 block text-xs text-stone-500">
+                          Artisan:{" "}
+                          {p.artisan.artisanProfile?.displayName ?? p.artisan.name ?? p.artisan.id}
+                        </span>
+                        <ProductShopAndMarketplace
+                          shopAddress={p.shopAddress}
+                          marketplaceUrl={p.marketplaceUrl}
+                          className="mt-2"
+                        />
+                      </div>
+                      {thumbUrl ? (
+                        <div className="relative h-20 w-20 shrink-0 self-start overflow-hidden rounded-md bg-stone-100 sm:h-24 sm:w-24">
+                          {/* eslint-disable-next-line @next/next/no-img-element -- product media URLs from storage */}
+                          <img
+                            src={thumbUrl}
+                            alt={`${p.name} thumbnail`}
+                            className="h-full w-full object-cover"
+                          />
+                        </div>
+                      ) : null}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </section>
         ))

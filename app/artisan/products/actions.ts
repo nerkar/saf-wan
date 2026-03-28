@@ -15,6 +15,28 @@ function revalidateProduct(productId: string) {
 
 const MAX_MEDIA_ON_CREATE = 20;
 
+function parseOptionalHttpUrl(
+  raw: string,
+  fieldLabel: string,
+): { ok: true; value: string | null } | { ok: false; error: string } {
+  const trimmed = raw.trim();
+  if (!trimmed) {
+    return { ok: true, value: null };
+  }
+  try {
+    const u = new URL(trimmed);
+    if (u.protocol !== "https:" && u.protocol !== "http:") {
+      return {
+        ok: false,
+        error: `${fieldLabel} must use http or https.`,
+      };
+    }
+    return { ok: true, value: trimmed };
+  } catch {
+    return { ok: false, error: `Invalid ${fieldLabel.toLowerCase()}.` };
+  }
+}
+
 function parseCreateProductMediaJson(
   raw: string,
 ):
@@ -84,11 +106,21 @@ export async function createProduct(
   const name = String(formData.get("name") ?? "").trim();
   const category = String(formData.get("category") ?? "").trim();
   const description = String(formData.get("description") ?? "").trim();
+  const shopAddress = String(formData.get("shopAddress") ?? "").trim();
+  const marketplaceUrlRaw = String(formData.get("marketplaceUrl") ?? "").trim();
   const published = formData.get("published") === "on";
   const mediaJson = String(formData.get("mediaItems") ?? "[]");
 
   if (!name || !category) {
     return { error: "Name and category are required." };
+  }
+
+  const marketplaceParsed = parseOptionalHttpUrl(
+    marketplaceUrlRaw,
+    "Marketplace link",
+  );
+  if (!marketplaceParsed.ok) {
+    return { error: marketplaceParsed.error };
   }
 
   const mediaParsed = parseCreateProductMediaJson(mediaJson);
@@ -103,6 +135,8 @@ export async function createProduct(
       name,
       category,
       description: description || null,
+      shopAddress: shopAddress || null,
+      marketplaceUrl: marketplaceParsed.value,
       published,
       media:
         mediaItems.length > 0
@@ -136,6 +170,8 @@ export async function updateProduct(
   const name = String(formData.get("name") ?? "").trim();
   const category = String(formData.get("category") ?? "").trim();
   const description = String(formData.get("description") ?? "").trim();
+  const shopAddress = String(formData.get("shopAddress") ?? "").trim();
+  const marketplaceUrlRaw = String(formData.get("marketplaceUrl") ?? "").trim();
   const published = formData.get("published") === "on";
 
   if (!productId) {
@@ -145,12 +181,22 @@ export async function updateProduct(
     return { error: "Name and category are required." };
   }
 
+  const marketplaceParsed = parseOptionalHttpUrl(
+    marketplaceUrlRaw,
+    "Marketplace link",
+  );
+  if (!marketplaceParsed.ok) {
+    return { error: marketplaceParsed.error };
+  }
+
   const updated = await prisma.product.updateMany({
     where: { id: productId, artisanId: session.user.id, archived: false },
     data: {
       name,
       category,
       description: description || null,
+      shopAddress: shopAddress || null,
+      marketplaceUrl: marketplaceParsed.value,
       published,
     },
   });

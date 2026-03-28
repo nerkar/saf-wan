@@ -44,6 +44,8 @@ export default async function EditProductPage({ params }: Props) {
           name: product.name,
           category: product.category,
           description: product.description,
+          shopAddress: product.shopAddress,
+          marketplaceUrl: product.marketplaceUrl,
           published: product.published,
           media: product.media.map((m) => ({
             id: m.id,

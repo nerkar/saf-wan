@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ProductShopAndMarketplace } from "@/components/product-shop-marketplace";
 import { getProductForVerification } from "@/lib/product-verification";
 
 type Props = { params: Promise<{ productId: string }> };
@@ -44,6 +45,11 @@ export default async function VerifyPage({ params }: Props) {
         {data.product.description ? (
           <p className="mt-3 text-pretty text-stone-800">{data.product.description}</p>
         ) : null}
+        <ProductShopAndMarketplace
+          shopAddress={data.product.shopAddress}
+          marketplaceUrl={data.product.marketplaceUrl}
+          className="mt-4 border-t border-stone-100 pt-4"
+        />
       </section>
 
       <section className="rounded-xl border border-stone-100 bg-stone-50/80 p-5 sm:p-6">

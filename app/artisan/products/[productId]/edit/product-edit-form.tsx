@@ -16,6 +16,8 @@ export type ProductEditFormProps = {
     name: string;
     category: string;
     description: string | null;
+    shopAddress: string | null;
+    marketplaceUrl: string | null;
     published: boolean;
     media: { id: string; url: string; type: "IMAGE" | "VIDEO"; sortOrder: number }[];
   };
@@ -110,6 +112,32 @@ export function ProductEditForm({ product, blobUploadEnabled }: ProductEditFormP
             name="description"
             rows={3}
             defaultValue={product.description ?? ""}
+            className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
+          />
+        </div>
+        <div>
+          <label htmlFor="shopAddress" className="block text-sm font-medium text-stone-700">
+            Physical shop address <span className="font-normal text-stone-500">(optional)</span>
+          </label>
+          <textarea
+            id="shopAddress"
+            name="shopAddress"
+            rows={2}
+            defaultValue={product.shopAddress ?? ""}
+            placeholder="Street, city, region…"
+            className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
+          />
+        </div>
+        <div>
+          <label htmlFor="marketplaceUrl" className="block text-sm font-medium text-stone-700">
+            Online marketplace link <span className="font-normal text-stone-500">(optional)</span>
+          </label>
+          <input
+            id="marketplaceUrl"
+            name="marketplaceUrl"
+            type="url"
+            defaultValue={product.marketplaceUrl ?? ""}
+            placeholder="https://…"
             className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
           />
         </div>

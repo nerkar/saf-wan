@@ -7,6 +7,8 @@ export type ProductVerificationPayload = {
     name: string;
     category: string;
     description: string | null;
+    shopAddress: string | null;
+    marketplaceUrl: string | null;
   };
   artisan: {
     displayName: string | null;
@@ -36,6 +38,8 @@ export async function getProductForVerification(
       name: product.name,
       category: product.category,
       description: product.description,
+      shopAddress: product.shopAddress,
+      marketplaceUrl: product.marketplaceUrl,
     },
     artisan: {
       displayName:

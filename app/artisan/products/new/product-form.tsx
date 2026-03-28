@@ -196,6 +196,30 @@ export function ProductForm({ blobUploadEnabled }: ProductFormProps) {
           className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
         />
       </div>
+      <div>
+        <label htmlFor="shopAddress" className="block text-sm font-medium text-stone-700">
+          Physical shop address <span className="font-normal text-stone-500">(optional)</span>
+        </label>
+        <textarea
+          id="shopAddress"
+          name="shopAddress"
+          rows={2}
+          placeholder="Street, city, region…"
+          className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
+        />
+      </div>
+      <div>
+        <label htmlFor="marketplaceUrl" className="block text-sm font-medium text-stone-700">
+          Online marketplace link <span className="font-normal text-stone-500">(optional)</span>
+        </label>
+        <input
+          id="marketplaceUrl"
+          name="marketplaceUrl"
+          type="url"
+          placeholder="https://…"
+          className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-stone-900 shadow-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
+        />
+      </div>
 
       <fieldset className="space-y-3 rounded-lg border border-stone-200 bg-stone-50/80 p-4">
         <legend className="px-1 text-sm font-medium text-stone-900">Media (optional)</legend>

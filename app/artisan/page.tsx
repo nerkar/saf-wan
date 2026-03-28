@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { QrPngPreviewButton } from "@/components/artisan/qr-png-preview-button";
 import { VerificationBanner } from "@/components/artisan/verification-banner";
+import { ProductShopAndMarketplace } from "@/components/product-shop-marketplace";
 import { prisma } from "@/lib/prisma";
 import { requireUserId } from "@/lib/session";
 import { getProductVerificationUrl } from "@/lib/verification-url";
@@ -64,6 +65,11 @@ export default async function ArtisanDashboardPage() {
                     <p className="text-sm text-stone-600">
                       {p.category} · {p.published ? "Published" : "Draft"}
                     </p>
+                    <ProductShopAndMarketplace
+                      shopAddress={p.shopAddress}
+                      marketplaceUrl={p.marketplaceUrl}
+                      className="mt-2 max-w-xl"
+                    />
                   </div>
                   <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
                     <div className="flex flex-wrap gap-2">
